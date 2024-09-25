@@ -136,33 +136,26 @@ export default {
     };
   },
   methods: {
-    handleFileUpload(event) {
-      this.logo = event.target.files[0];
-    },
-    async submitForm() {
-      // Asegúrate de que los datos estén bien formateados antes de subirlos
-      try {
-        const formData = {
-          nombreEmpresa: this.formData.nombreEmpresa,
-          correo: this.formData.correo,
-          contraseña: this.formData.contraseña,
-          direccion: this.formData.direccion,
-          telefono: this.formData.telefono,
-          sector: this.formData.sector,
-          nif: this.formData.nif,
-          nrc: this.formData.nrc,
-          sitioWeb: this.formData.sitioWeb || null,
-          empleados: this.formData.empleados ? parseInt(this.formData.empleados) : null,
-          descripcion: this.formData.descripcion || null,
-        };
-
-        const docRef = await addDoc(collection(db, 'empresas'), formData);
-        console.log("Documento registrado con ID:", docRef.id);
-      } catch (e) {
-        console.error("Error al agregar el documento:", e);
-      }
-    },
-  },
+  async submitForm() {
+    try {
+      const docRef = await addDoc(collection(db, "empresas"), {
+        nombreEmpresa: this.formData.nombreEmpresa,
+        correo: this.formData.correo,
+        direccion: this.formData.direccion,
+        telefono: this.formData.telefono,
+        sector: this.formData.sector,
+        nif: this.formData.nif,
+        nrc: this.formData.nrc,
+        sitioWeb: this.formData.sitioWeb,
+        empleados: this.formData.empleados,
+        descripcion: this.formData.descripcion,
+      });
+      console.log("Documento registrado con ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error al agregar el documento: ", e);
+    }
+  }
+}
 };
 </script>
 
