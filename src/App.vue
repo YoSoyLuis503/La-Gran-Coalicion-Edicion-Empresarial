@@ -1,27 +1,37 @@
 <template>
   <div id="app">
-    <RegistroEmpresarial />
+
+    <div id="AppNavbar">
+    <AppNavbar />
+    <router-view></router-view>
+    </div>
+
   </div>
 
-  <div id="otraapp">
-    <LoginEmpresarial/>
-  </div>
+  
 
 </template>
 
 <script>
-import RegistroEmpresarial from './components/RegistroEmpresarial.vue';
-import LoginEmpresarial from './components/LoginEmpresarial.vue';
+import AppNavbar from './components/AppNavbar.vue';
 
 export default {
   name: 'App',
   components: {
-    RegistroEmpresarial,
-    LoginEmpresarial,
+
+    AppNavbar,
   },
 };
 </script>
 
 <style>
-/*Estilos globales*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  max-width: 100%;
+  max-height: 100%;
+}
+
 </style>
+

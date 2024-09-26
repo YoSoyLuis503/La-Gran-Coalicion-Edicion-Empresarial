@@ -46,7 +46,6 @@
   </script>
   
   <style scoped>
-  /* Aquí puedes agregar tu CSS o importar el archivo CSS */
   @import '@/css/loginAndRegistroEmpresarial.css';
   </style>
   
