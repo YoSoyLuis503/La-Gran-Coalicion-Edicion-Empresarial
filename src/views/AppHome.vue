@@ -1,17 +1,11 @@
 <template>
-    <div id="app">
-      <RegistroEmpresarial />
-    </div>
-  </template>
-  
-  <script>
-  import RegistroEmpresarial from '../components/RegistroEmpresarial.vue';
+    <div>hola mundo </div>
+</template>
 
-  export default {
-    name: 'App',
-    components: {
-      RegistroEmpresarial,
-    },
-  };
-  </script>
-  
+<script setup>
+
+</script>
+
+<style scoped>
+
+</style>

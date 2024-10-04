@@ -8,7 +8,7 @@
             <!-- logo -->
             <div class="footer-logo mb-20">
               <a href="index.html">
-                <img src="@/assets/img/footherIMG.png" alt="Logo Footer" />
+                <img src="@/assets/logo.png" alt="Logo Footer" />
               </a>
             </div>
           </div>
@@ -34,10 +34,10 @@
         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
           <div class="single-footer-caption mb-50">
             <div class="footer-tittle">
-              <h4>Contactenos</h4>
+              <h4>Contáctenos</h4>
               <ul>
-                <li><a href="#">Telefono : (503) 2645 6500</a></li>
-                <li><a href="#">Numero Fijo : 800-7026</a></li>
+                <li><a href="#">Teléfono : (503) 2645 6500</a></li>
+                <li><a href="#">Número Fijo : 800-7026</a></li>
                 <li><a href="#">WhatsApp : (503) 2645 6500</a></li>
                 <li><a href="#">Email : consultas@ugb.edu.sv</a></li>
               </ul>
@@ -65,38 +65,11 @@
   <!-- Footer End -->
 </template>
 
-<script>
-export default {
-  name: 'FooterComponent'
-}
+
+<script setup>
+
 </script>
 
 <style scoped>
-.footer-area {
-  background-color: #3300ff; /* Fondo azul */
-  color: white; /* Texto blanco */
-  padding: 60px 0; /* Aumenta el padding para hacerlo más alto */
-}
 
-.footer-tittle h4 {
-  color: white; /* Título en blanco */
-}
-
-.footer-logo img {
-  max-width: 100%; /* Asegura que la imagen del logo no se desborde */
-}
-
-ul {
-  list-style: none; /* Eliminar los puntos de la lista */
-  padding: 0;
-}
-
-ul li a {
-  color: white; /* Links en blanco */
-  text-decoration: none;
-}
-
-ul li a:hover {
-  text-decoration: underline; /* Subrayar al pasar el cursor por encima */
-}
 </style>

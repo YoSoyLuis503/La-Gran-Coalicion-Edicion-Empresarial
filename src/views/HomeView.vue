@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import FacultyList from './FacultyList.vue';
-import JobList from './JobList.vue';
-import FooterComponent from './FooterComponent.vue'; // Importa el componente del footer
+import FacultyList from '@/components/FacultyList.vue';
+import JobList from '@/components/JobList.vue';
+import FooterComponent from '@/components/FooterComponent.vue';
 
 export default {
     name: "HomeEmpresa",
