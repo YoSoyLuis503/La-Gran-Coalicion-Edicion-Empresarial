@@ -1,4 +1,9 @@
 <template>
+
+    <header>
+        <NavbarComponent />
+    </header>
+
     <div>
         <!-- Título principal -->
         <div class="home-container text-center my-5">
@@ -17,36 +22,30 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
 import FacultyList from '@/components/FacultyList.vue';
 import JobList from '@/components/JobList.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
+import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 
-export default {
-    name: "HomeEmpresa",
-    components: {
-        FacultyList,
-        JobList,
-        FooterComponent // Añade el componente de Footer
-    },
-    data() {
-        return {
-            faculties: [
-                { name: "Ciencias y Humanidades", count: 653, icon: "flaticon-tour", description: "Explora áreas de arte, filosofía y más." },
-                { name: "Ciencias de la Salud", count: 658, icon: "flaticon-cms", description: "Forma parte de las profesiones de la salud." },
-                { name: "Ingeniería y Arquitectura", count: 658, icon: "flaticon-report", description: "Construye el futuro con nuestras ingenierías." },
-                { name: "Derecho y R. Internacionales", count: 658, icon: "flaticon-app", description: "Desarrolla tu carrera en leyes y relaciones." },
-                { name: "Ingeniería en Sistemas", count: 658, icon: "flaticon-helmet", description: "Impulsa tu futuro en la tecnología." },
-                { name: "Ciencias y Tecnología", count: 658, icon: "flaticon-high-tech", description: "Innova en un mundo tecnológico." },
-                { name: "Postgrado", count: 658, icon: "flaticon-real-estate", description: "Amplía tus horizontes académicos." },
-                { name: "Otros", count: 658, icon: "flaticon-content", description: "Descubre diversas oportunidades." },
-            ],
-            jobs: [
-                { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: "Hace 7 horas", img: "src/assets/img/prueba.png" },
-            ]
-        };
-    }
-};
+// Definir las facultades
+const faculties = ref([
+    { name: "Ciencias y Humanidades", count: 653, icon: "flaticon-tour", description: "Explora áreas de arte, filosofía y más." },
+    { name: "Ciencias de la Salud", count: 658, icon: "flaticon-cms", description: "Forma parte de las profesiones de la salud." },
+    { name: "Ingeniería y Arquitectura", count: 658, icon: "flaticon-report", description: "Construye el futuro con nuestras ingenierías." },
+    { name: "Derecho y R. Internacionales", count: 658, icon: "flaticon-app", description: "Desarrolla tu carrera en leyes y relaciones." },
+    { name: "Ingeniería en Sistemas", count: 658, icon: "flaticon-helmet", description: "Impulsa tu futuro en la tecnología." },
+    { name: "Ciencias y Tecnología", count: 658, icon: "flaticon-high-tech", description: "Innova en un mundo tecnológico." },
+    { name: "Postgrado", count: 658, icon: "flaticon-real-estate", description: "Amplía tus horizontes académicos." },
+    { name: "Otros", count: 658, icon: "flaticon-content", description: "Descubre diversas oportunidades." }
+]);
+
+// Definir los trabajos
+const jobs = ref([
+    { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: "Hace 7 horas", img: "src/assets/img/prueba.png" }
+]);
+
 </script>
 
 <style scoped>
