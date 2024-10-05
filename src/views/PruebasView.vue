@@ -1,13 +1,13 @@
 <template>
+
+    <header>
+        <NavbarComponent />
+    </header>
     <div class="container-fluid text-center">
         <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6 co-xs-12" v-for="(faculty, index) in faculties" :key="index">
+            <div class="col-md-4" v-for="(faculty, index) in faculties" :key="index">
                 <div class="faculty-box">
-                    <div class="row" style="font-size: 1.2em;">
-                        <router-link :to="{ }" class="publicar-en-facultad">
-                            {{faculty.name}}
-                        </router-link>
-                    </div>
+                    <div class="row" style="font-size: 1.2em;"><label>{{faculty.name}}</label></div>
                     <div class="row"><label>({{faculty.count}})</label></div>
                     <div class="row mt-2"><label>{{faculty.description}}</label></div>
                 </div>
@@ -15,9 +15,12 @@
             </div>
         </div>
     </div>
+
+
 </template>
 
 <script setup>
+import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 import { ref } from 'vue';
 const faculties = ref([
     { name: "Ciencias y Humanidades", count: 653, icon: "flaticon-tour", description: "Explora áreas de arte, filosofía y más." },
@@ -43,25 +46,5 @@ const faculties = ref([
     color: #333;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 10px;
-}
-
-.faculty-box:hover {
-    background-color: #007bff;
-    color: white;
-}
-
-.publicar-en-facultad {
-    color: inherit;
-    text-decoration: none;
-}
-
-.publicar-en-facultad:hover {
-    text-decoration: underline;
-}
-
-.faculty-description {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 10px;
 }
 </style>
