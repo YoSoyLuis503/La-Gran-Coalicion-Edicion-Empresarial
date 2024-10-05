@@ -19,6 +19,7 @@ import { ref } from 'vue';
 let rutas = ref([
     { name: 'Home', text: 'Inicio' },
     { name: 'candidates', text: 'Ver Candidatos' },
+    { name: 'postjob', text: 'Publicar Empleo' },
     // { name: 'prueba', text: 'Probando' },
 ])
 </script>

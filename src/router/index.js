@@ -4,6 +4,7 @@ import RegisterView from '@/views/RegisterView.vue';
 import LoginView from '@/views/LoginView.vue';
 import CandidatesView from '@/views/CandidatesView.vue';
 import PruebasView from '@/views/PruebasView.vue';
+import PostJobView from '@/views/PostJobView.vue';
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/prueba',
     name: 'prueba',
     component: PruebasView
+  },
+  {
+    path: '/postjob',
+    name: 'postjob',
+    component: PostJobView
   }
 ];
 
