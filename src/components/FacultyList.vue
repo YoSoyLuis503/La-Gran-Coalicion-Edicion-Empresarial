@@ -2,16 +2,15 @@
     <div class="container-fluid text-center">
         <div class="row">
             <div class="col-lg-3 col-md-4 col-sm-6 co-xs-12" v-for="(faculty, index) in faculties" :key="index">
-                <div class="faculty-box">
+                <div class="faculty-box d-flex flex-column justify-content-center align-items-center" style="height: 150px;">
                     <div class="row" style="font-size: 1.2em;">
-                        <router-link :to="{ }" class="publicar-en-facultad">
-                            {{faculty.name}}
+                        <router-link :to="{}" class="publicar-en-facultad">
+                            {{ faculty.name }}
                         </router-link>
                     </div>
-                    <div class="row"><label>({{faculty.count}})</label></div>
-                    <div class="row mt-2"><label>{{faculty.description}}</label></div>
+                    <div class="row"><label>({{ faculty.count }})</label></div>
+                    <div class="row mt-2"><label>{{ faculty.description }}</label></div>
                 </div>
-
             </div>
         </div>
     </div>
