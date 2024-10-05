@@ -1,14 +1,13 @@
 <template>
   <!-- Footer Start -->
   <div class="footer-area footer-bg footer-padding">
-    <div class="container">
       <div class="row d-flex justify-content-between">
         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
           <div class="single-footer-caption mb-50">
             <!-- logo -->
             <div class="footer-logo mb-20">
               <a href="index.html">
-                <img src="@/assets/logo.png" alt="Logo Footer" />
+                <img src="@/assets/img/footherIMG.png" alt="Logo Footer" />
               </a>
             </div>
           </div>
@@ -61,15 +60,42 @@
         </div>
       </div>
     </div>
-  </div>
   <!-- Footer End -->
 </template>
 
 
-<script setup>
-
+<script>
+export default {
+  name: 'FooterComponent'
+}
 </script>
 
 <style scoped>
+.footer-area {
+  background-color: #3300ff; /* Fondo azul */
+  color: white; /* Texto blanco */
+  padding: 60px 0; /* Aumenta el padding para hacerlo más alto */
+}
 
+.footer-tittle h4 {
+  color: white; /* Título en blanco */
+}
+
+.footer-logo img {
+  max-width: 100%; /* Asegura que la imagen del logo no se desborde */
+}
+
+ul {
+  list-style: none; /* Eliminar los puntos de la lista */
+  padding: 0;
+}
+
+ul li a {
+  color: white; /* Links en blanco */
+  text-decoration: none;
+}
+
+ul li a:hover {
+  text-decoration: underline; /* Subrayar al pasar el cursor por encima */
+}
 </style>
