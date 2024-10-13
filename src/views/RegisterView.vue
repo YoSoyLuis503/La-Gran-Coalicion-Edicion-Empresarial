@@ -1,61 +1,111 @@
 <template>
-    <div class="bodyRegistro">
-      <form class="containerRegistro" @submit.prevent="submitForm">
-        <div class="blue-ugb">REGISTRO EMPRESARIAL</div>
-        <img src="@/assets/logo_azul_vertical.png" alt="Logo Empresa">
-  
-        <div>Nombre de la empresa</div>
+  <div class="bodyRegistro">
+    <form class="containerRegistro" @submit.prevent="submitForm">
+      <div class="blue-ugb text-center mb-4">REGISTRO EMPRESARIAL</div>
+
+      <div id="Dimg" class="text-center mb-4">
+        <img
+          v-if="previewImage"
+          :src="previewImage"
+          alt="Logo Empresa"
+          class="d-block mx-auto mb-4 rounded-image"
+        />
+        <img
+          v-else
+          src="@/assets/img/logoT.png"
+          alt="Logo Empresa"
+          class="d-block mx-auto mb-4 logo-default"
+        />
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="formFile">Cargar Imagen (Logotipo)</label>
+        <input
+          class="form-control rounded-input"
+          type="file"
+          id="formFile"
+          @change="handleFileUpload"
+          required
+        />
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="nombreEmpresa">Nombre de la empresa</label>
         <input
           type="text"
-          class="item"
-          placeholder="Escribe el nombre de la empresa"
+          id="nombreEmpresa"
+          class="form-control rounded-input"
+          placeholder="Escribe el nombre"
           v-model="formData.nombreEmpresa"
           required
         />
-  
-        <div class="mb-3">
-          <label for="formFile" class="form-label">Cargar Imagen(Logotipo)</label>
-          <input class="form-control" type="file" id="formFile" @change="handleFileUpload" required />
-        </div>
-  
-        <div>Correo electrónico</div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="correo">Correo electrónico</label>
         <input
           type="email"
-          class="item"
-          placeholder="Escribe el correo"
+          id="correo"
+          class="form-control rounded-input"
+          placeholder="Correo"
           v-model="formData.correo"
           required
         />
-  
-        <div>Contraseña</div>
+      </div>
+
+      <div class="form-group mb-3 position-relative">
+        <label for="contraseña">Contraseña</label>
         <input
-          type="password"
-          class="item"
+          :type="passwordVisible ? 'text' : 'password'"
+          id="contraseña"
+          class="form-control rounded-input"
           placeholder="Escribe la contraseña"
           v-model="formData.contraseña"
           required
         />
-  
-        <div>Dirección</div>
+        <button type="button" class="toggle-password" @click="togglePassword">
+          <img 
+            :src="passwordVisible ? require('@/assets/img/ojo-abierto.png') : require('@/assets/img/ojo-cerrado.png')" 
+            alt="Toggle Password Visibility" 
+            class="eye-icon" 
+          />
+        </button>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="direccion">Dirección</label>
         <input
           type="text"
-          class="item"
+          id="direccion"
+          class="form-control rounded-input"
           placeholder="Escribe la dirección"
           v-model="formData.direccion"
           required
         />
-  
-        <div>Teléfono</div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="telefono">Teléfono</label>
         <input
           type="text"
-          class="item"
-          placeholder="Escribe el número de teléfono"
+          id="telefono"
+          class="form-control rounded-input"
+          placeholder="teléfono"
           v-model="formData.telefono"
+          @input="formatPhone"
+          maxlength="9"
           required
         />
-  
-        <div>Sector</div>
-        <select class="form-select" v-model="formData.sector" required>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="sector">Sector</label>
+        <select
+          class="form-select rounded-input"
+          id="sector"
+          v-model="formData.sector"
+          required
+        >
           <option disabled value="">Escoger Sector</option>
           <option value="IT">Tecnología de la información (IT)</option>
           <option value="Manufactura">Manufactura</option>
@@ -64,81 +114,109 @@
           <option value="Comercio">Comercio</option>
           <option value="Otro">Otro</option>
         </select>
-  
-        <div>Número de Identificación Fiscal (NIF)</div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="nif">Número de Identificación Fiscal (NIF)</label>
         <input
           type="text"
-          class="item"
+          id="nif"
+          class="form-control rounded-input"
           placeholder="Escribe el NIF"
           v-model="formData.nif"
           required
         />
-  
-        <div>Número de Registro de Contribuyente (NRC)</div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="nrc">Número de Registro de Contribuyente (NRC)</label>
         <input
           type="text"
-          class="item"
+          id="nrc"
+          class="form-control rounded-input"
           placeholder="Escribe el NRC"
           v-model="formData.nrc"
           required
         />
-  
-        <div>Sitio Web (opcional)</div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="sitioWeb">Sitio Web (opcional)</label>
         <input
           type="text"
-          class="item"
+          id="sitioWeb"
+          class="form-control rounded-input"
           placeholder="URL"
           v-model="formData.sitioWeb"
         />
-  
-        <div>Número de empleados (opcional)</div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="descripcion">Descripción (opcional)</label>
         <input
           type="text"
-          class="item"
-          placeholder="N° de empleados"
-          v-model="formData.empleados"
-        />
-  
-        <div>Descripción (opcional)</div>
-        <input
-          type="text"
-          class="item"
+          id="descripcion"
+          class="form-control rounded-input"
           placeholder="Descripción"
           v-model="formData.descripcion"
         />
+      </div>
+
+      <button type="submit" class="btn btn-primary rounded-button w-100">
+        INICIAR SESIÓN
+      </button>
+    </form>
+  </div>
+</template>
+
+
   
-        <input type="submit" class="button" value="INICIAR SESIÓN" />
-      </form>
-    </div>
-  </template>
-  
-  <script>
-  import { db } from '@/js/firebase';
-  import { collection, addDoc } from 'firebase/firestore';
-  
-  export default {
-    data() {
-      return {
-        formData: {
-          nombreEmpresa: "",
-          correo: "",
-          contraseña: "",
-          direccion: "",
-          telefono: "",
-          sector: "",
-          nif: "",
-          nrc: "",
-          sitioWeb: "",
-          empleados: "",
-          descripcion: "",
-        },
-        logo: null,
-      };
+<script>
+import { db } from '@/js/firebase';
+import { setDoc, doc } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"; // Importar Firebase Auth
+
+export default {
+  data() {
+    return {
+      formData: {
+        nombreEmpresa: "",
+        usuarioEmpresa: "",
+        correo: "",
+        contraseña: "",
+        direccion: "",
+        telefono: "",
+        sector: "",
+        nif: "",
+        nrc: "",
+        sitioWeb: "",
+        empleados: "",
+        descripcion: "",
+      },
+      previewImage: null, // Para mostrar la imagen seleccionada
+      passwordVisible: false, // Para controlar la visibilidad de la contraseña
+    };
+  },
+  methods: {
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.previewImage = e.target.result; // Almacena la imagen como URL
+        };
+        reader.readAsDataURL(file); // Lee el archivo como una URL de datos
+      }
     },
-    methods: {
     async submitForm() {
+      const auth = getAuth(); // Obtener instancia de Firebase Auth
       try {
-        const docRef = await addDoc(collection(db, "empresas"), {
+        // Registrar el usuario con correo y contraseña
+        const userCredential = await createUserWithEmailAndPassword(auth, this.formData.correo, this.formData.contraseña);
+        const user = userCredential.user; // Obtener el objeto del usuario
+
+        // Ahora guardamos los datos adicionales en Firestore
+        await setDoc(doc(db, "usuarios", user.uid), {
           nombreEmpresa: this.formData.nombreEmpresa,
           correo: this.formData.correo,
           direccion: this.formData.direccion,
@@ -147,19 +225,160 @@
           nif: this.formData.nif,
           nrc: this.formData.nrc,
           sitioWeb: this.formData.sitioWeb,
-          empleados: this.formData.empleados,
           descripcion: this.formData.descripcion,
+          tipo: "empresa",
         });
-        console.log("Documento registrado con ID: ", docRef.id);
+
+        console.log("Documento registrado con ID: ", this.formData.correo); // ID del usuario creado
+        if (user) {
+          console.log("Usuario logueado:", user);
+          window.location.href = "/";
+        } else {
+          console.log("No hay usuario logueado");
+        }
       } catch (e) {
-        console.error("Error al agregar el documento: ", e);
+        console.error("Error al registrar el usuario: ", e);
+      }
+    },
+    togglePassword() {
+      this.passwordVisible = !this.passwordVisible; // Cambia la visibilidad de la contraseña
+    },
+    formatPhone() {
+      // Remover cualquier caracter que no sea número
+      this.formData.telefono = this.formData.telefono.replace(/\D/g, '');
+
+      // Limitar a 8 dígitos
+      if (this.formData.telefono.length > 8) {
+        this.formData.telefono = this.formData.telefono.substring(0, 8);
+      }
+
+      // Insertar el guion después de los primeros 4 dígitos
+      if (this.formData.telefono.length > 4) {
+        this.formData.telefono = this.formData.telefono.replace(/(\d{4})(\d+)/, '$1-$2');
       }
     }
   }
-  };
-  </script>
+};
+</script>
+
+
   
   <style scoped>
-  @import '@/css/loginAndRegistroEmpresarial.css';
+  html{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-weight: normal;
+    line-height: 1.15;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+.bodyRegistro {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    background: url("/public/Recursos/fondoLogin3.png") no-repeat center center fixed;
+    background-size: cover;
+}
+
+.containerRegistro {
+    justify-items: center;
+    background-color: rgba(255, 255, 255, 0.7); /* Fondo blanco con opacidad */
+    display: grid;
+    grid-template-columns: repeat(1, 5fr);
+    gap: 10px;
+    width: max-content;
+    height: max-content;
+    border-radius: 5px;
+    padding: 20px; /* Aumentado para darle más espacio */
+    color: #000000;
+    margin: 10px;
+    backdrop-filter: blur(10px); /* Efecto de difuminación */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombras suaves */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Ligeramente visible */
+}
+
+
+.blue-ugb {
+    height: max-content;
+    width: 410px;
+    margin: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #ffffff;
+    border-color: #a5a5a5;
+    color: #000000;
+}
+    
+.rounded-input {
+  border-radius: 25px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.rounded-image {
+  width: 50%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.logo-default {
+  width: 50%;
+}
+
+.btn-primary {
+  background-color: #ffffff;
+  border-color: #a5a5a5;
+  color: #000000;
+}
+
+.btn-primary:hover {
+  background-color: #ffffff00;
+  border-color: #000000;
+  color: #000000;
+}
+
+.rounded-button {
+  border-radius: 25px;
+  padding: 10px 0;
+}
+body {
+  font-family: Arial, sans-serif;
+}
+
+
+#Dimg{
+  width: 250px;
+  height: 100px;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 67%;
+  right: 15px; /* Ajusta la posición del botón según sea necesario */
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0; /* Elimina el padding del botón */
+}
+
+.eye-icon {
+  width: 30px; /* Ajusta el tamaño como necesites */
+  height: auto; /* Mantiene la proporción de la imagen */
+}
+
   </style>
   

@@ -10,27 +10,29 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: HomeView
+    component: HomeView,
   },
   {
     path: '/login',
     name: 'login',
-    component: LoginView
+    component: LoginView,
+    meta: { title: 'Login' }
   },
   {
     path: '/register',
     name: 'register',
-    component: RegisterView
+    component: RegisterView,
+    meta: { title: 'Registro Empresarial' }
   },
   {
     path: '/candidates',
     name: 'candidates',
-    component: CandidatesView
+    component: CandidatesView,
   },
   {
     path: '/prueba',
     name: 'prueba',
-    component: PruebasView
+    component: PruebasView,
   },
   {
     path: '/post-job',
@@ -43,5 +45,11 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 });
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || 'Título predeterminado';
+  next();
+});
+
 
 export default router;
