@@ -17,7 +17,7 @@
 }
 
 .btn-Registrarse:hover {
-    background-color: #2BBBAD;
+    background-color: #0b17c5ed;
     color: #ffffff;
 }
 </style>

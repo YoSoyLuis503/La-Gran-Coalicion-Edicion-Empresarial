@@ -34,7 +34,7 @@ const toggleBookmark = () => {
 
 .bi-bookmark-fill{
     transition: color 0.5s ease;
-    color: #2BBBAD;
+    color: #0b17c5ed;
 }
 
 .bookmark-btn:focus {

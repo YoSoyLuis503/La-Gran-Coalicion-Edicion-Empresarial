@@ -18,9 +18,6 @@ import { ref } from 'vue';
 // y un "text" que aparecerá en el navbar
 let rutas = ref([
     { name: 'Home', text: 'Inicio' },
-    { name: 'candidates', text: 'Ver Candidatos' },
-    { name: 'post-job', text: 'Publicar Empleo' },
-    // { name: 'prueba', text: 'Probando' },
 ])
 </script>
 
@@ -31,17 +28,17 @@ nav {
 
     a {
         font-weight: bold;
-        color: #2c3e50;
+        color: black;
         transition: color 0.3s ease;
         text-decoration: none;
         /* Quitar subrayado */
 
         &.router-link-exact-active {
-            color: #42b983;
+            color: #0b17c5ed;
         }
 
         &:hover {
-            color: #42b983;
+            color: #0b17c5ed;
         }
     }
 

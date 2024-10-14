@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-6" v-for="(candidate, index) in candidates" :key="index">
             <div class="candidate-card">
-                <img src="@/assets/logo.png" alt="Candidate Photo">
+                <img src="@/assets/img/logoTA.png">
                 <h5>{{ candidate.name }}</h5>
                 <p>EDAD: {{ candidate.age }}<br>
                     CUM: {{ candidate.cum }}<br>

@@ -24,12 +24,14 @@
         </div>
   
         <!-- Botón para publicar -->
-        <div class="row mt-3">
+        <div class="row mt-3 mb-5">
           <div class="col text-start">
             <button type="submit" class="btn btn-primary w-100">Publicar</button>
           </div>
         </div>
     </div>
+
+    <FooterComponent/>
   </template>
   
   <script setup>
@@ -39,21 +41,7 @@
   import PostJobTextInput from '@/components/PostJob/PostJobTextInput.vue';
   import PostJobTextTarea from '@/components/PostJob/PostJobTextTarea.vue';
   import PostJobSelect_Date from '@/components/PostJob/PostJobSelect_Date.vue';
-  
-  // Datos del formulario de empleo
-  // const jobData = ref({
-  //   position: '',
-  //   duration: '',
-  //   description: '',
-  //   location: '',
-  //   salary: '',
-  //   modalidad: '',
-  //   tipo: '',
-  //   vacantes: '',
-  //   fechaInicio: ''
-  // });
-  
-  // Estado para mostrar/ocultar el tooltip
+  import FooterComponent from '@/components/FooterComponent.vue';
 
   </script>
   

@@ -4,7 +4,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 co-xs-12" v-for="(faculty, index) in faculties" :key="index">
                 <div class="faculty-box">
                     <div class="row" style="font-size: 1.2em;">
-                        <router-link :to="{ }" class="publicar-en-facultad">
+                        <router-link :to="{name: 'post-job' }" class="publicar-en-facultad">
                             {{faculty.name}}
                         </router-link>
                     </div>

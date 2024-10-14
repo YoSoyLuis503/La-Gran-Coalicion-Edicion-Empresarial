@@ -3,10 +3,10 @@
         <div class="single-job-items mb-30 d-flex flex-column align-items-center">
             <div class="job-items d-flex align-items-center">
                 <div class="company-img">
-                    <a href="job_details.html"><img :src="job.img" alt="job logo"></a>
+                    <a href=""><img :src="job.img" alt="job logo"></a>
                 </div>
                 <div class="job-tittle">
-                    <a href="job_details.html"><h4>{{ job.title }}</h4></a>
+                    <router-link :to="{name: 'candidates'}" ><h4>{{ job.title }}</h4></router-link>
                     <ul>
                         <li>{{ job.company }}</li>
                         <li><i class="fas fa-map-marker-alt"></i>{{ job.location }}</li>
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="items-link f-right">
-                <a href="job_details.html">{{ job.type }}</a>
+                <a href="">{{ job.type }}</a>
                 <span>{{ job.time }}</span>
             </div>
         </div>

@@ -16,11 +16,13 @@
         </div>
     </div>
 
+    <FooterComponent/>
 
 </template>
 
 <script setup>
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
+import FooterComponent from '@/components/FooterComponent.vue';
 import { ref } from 'vue';
 const faculties = ref([
     { name: "Ciencias y Humanidades", count: 653, icon: "flaticon-tour", description: "Explora áreas de arte, filosofía y más." },

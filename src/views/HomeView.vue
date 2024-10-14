@@ -11,10 +11,16 @@
                 <h1 class="display-4 font-weight-bold text-primary">Busca el equipo de tus sueños</h1>
                 <p class="lead text-muted">Encuentra el mejor equipo para ti.</p>
             </div>
-            <div class="row"><FacultyList :faculties="faculties" /></div>
-            <div class="row"><JobList :jobs="jobs" /></div>
-            <div class="row"><FooterComponent /></div>
-        </div>        
+            <div class="row">
+                <FacultyList :faculties="faculties" />
+            </div>
+            <div class="row">
+                <JobList :jobs="jobs" />
+            </div>
+            <div class="row">
+                <FooterComponent />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -26,7 +32,9 @@ import FooterComponent from '@/components/FooterComponent.vue';
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 // // Definir los trabajos
 const jobs = ref([
-    { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: "Hace 7 horas", img: "src/assets/img/prueba.png" }
+    { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: "Hace 7 horas", img: "src/assets/img/prueba.png" },
+    { title: "Beta Tester", company: "Team Cherry", location: "La Unión", salary: "$1000-1500", type: "Tiempo Completo", time: "Hace 1 hora", img: "src/assets/img/prueba.png" }
+
 ]);
 </script>
 

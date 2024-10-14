@@ -2,7 +2,6 @@
     <header>
         <NavbarComponent />
     </header>
-
     <div class="container-fluid mt-5">
         <div class="row">
             <div class="col-md-3">
@@ -28,8 +27,11 @@
                 </div>
             </div>
         </div>
+
     </div>
 
+
+    <FooterComponent />
 </template>
 
 <script setup>
@@ -40,6 +42,5 @@ import SearchButton from '@/components/SearchButton.vue';
 import SelectComponent from '@/components/SelectComponent.vue';
 import AboutJob from '@/components/AboutJob.vue';
 import CandidateCard from '@/components/CandidateCard/CandidateCard.vue';
+import FooterComponent from '@/components/FooterComponent.vue';
 </script>
-
-<style scoped></style>

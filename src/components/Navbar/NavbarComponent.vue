@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="../../assets/logo_navbar.png" alt="Logo" width="100">
+                <img src="../../assets/img/logoTA.png" alt="Logo" height="50">
             </a>
             <!-- Botón de alternancia para la vista móvil
             Este botón se muestra en dispositivos móviles y colapsa/expande el menú de navegación -->
