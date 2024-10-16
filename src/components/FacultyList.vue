@@ -32,7 +32,7 @@ const faculties = ref([
 
 <style scoped>
 .faculty-box {
-    border: 2px solid #000; /* Cambiado a negro */
+    border: 2px solid #c4c6ce; /* Cambiado a negro */
     border-radius: 10px;
     padding: 20px;
     max-height: 400px;

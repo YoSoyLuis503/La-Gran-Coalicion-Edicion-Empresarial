@@ -17,9 +17,7 @@
           <div class="footer-tittle mb-30 text-center text-md-start">
             <h4>Sobre nosotros</h4>
             <p>
-              Somos un portal de empleos que se adapta a los cambios e innova
-              constantemente para responder a las necesidades actuales y futuras
-              de la sociedad.
+              Jobs es un portal de empleo dinámico que se adapta a los cambios del mercado laboral y se innova continuamente para satisfacer las necesidades actuales y futuras de los profesionales y empresas.
             </p>
           </div>
         </div>
@@ -29,10 +27,10 @@
           <div class="footer-tittle text-center text-md-start">
             <h4>Contáctenos</h4>
             <ul>
-              <li><a href="tel:+50326456500">Teléfono: (503) 2645 6500</a></li>
-              <li><a href="tel:8007026">Número Fijo: 800-7026</a></li>
-              <li><a href="https://wa.me/50326456500">WhatsApp: (503) 2645 6500</a></li>
-              <li><a href="mailto:consultas@ugb.edu.sv">Email: consultas@ugb.edu.sv</a></li>
+              <li><a href="tel:+5030000 0000">Teléfono: (503) 0000 0000</a></li>
+              <li><a href="tel:0000 0000">Número Fijo: 0000-0000</a></li>
+              <li><a href="https://wa.me/5030000 0000">WhatsApp: (503) 0000 0000</a></li>
+              <li><a href="mailto:consultas@jobs.job.sv">Email: consultas@jobs.job.sv</a></li>
             </ul>
           </div>
         </div>
@@ -42,11 +40,12 @@
           <div class="footer-tittle text-center text-md-start">
             <h4>Visita también</h4>
             <ul>
-              <li><a href="https://ugb.edu.sv/">UGB sitio oficial</a></li>
+              <li><a href="http://localhost:8080/">Jobs sitio oficial</a></li>
               <li>
-                <a href="https://estudiantes.ugb.edu.sv/Login?ReturnUrl=%2F">Portal estudiantes</a>
+                <a href="http://localhost:8080/">Instagram</a>
               </li>
-              <li><a href="https://ugb.instructure.com/login/canvas">Canvas UGB</a></li>
+              <li><a href="http://localhost:8080/">Facebook</a></li>
+              <li><a href="http://localhost:8080/">Likendlin</a></li>
             </ul>
           </div>
         </div>
