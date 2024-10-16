@@ -18,7 +18,7 @@
     </div>
 
     <div class="row">
-      <PostJobTextTarea />
+      <PostJobTextTarea v-model="description" />
     </div>
 
     <!-- Campos adicionales -->
@@ -32,7 +32,7 @@
     <!-- Botón para publicar -->
     <div class="row mt-3 mb-5">
       <div class="col text-start">
-        <button type="submit" class="btn btn-primary w-100">Publicar</button>
+        <button type="submit" class="btn btn-primary w-100" @click="postJob">Publicar</button>
       </div>
     </div>
   </div>
@@ -47,13 +47,17 @@ import PostJobTextInput from '@/components/InputComponent.vue';
 import PostJobTextTarea from '@/components/PostJob/PostJobTextTarea.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import SelectComponent from '@/components/SelectComponent.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { db } from '@/js/firebase';
+import { collection, addDoc, doc, getDoc } from 'firebase/firestore';
 
 // Datos de los inputs de texto
+const company = ref('');
 const name = ref('');
 const time = ref('');
 const place = ref('');
 const salarie = ref('');
+const description = ref('');
 
 // Array para los campos de texto con su configuración
 const textInputs = [
@@ -85,6 +89,54 @@ const selectOptions = [
   { model: modoEmpleo, options: modalidades, placeholder: 'Modalidad de empleo' },
   { model: tipoEmpleo, options: tipos, placeholder: 'Tipo de empleo' },
 ];
+
+// Función para obtener datos de la empresa desde Firestore
+const fetchCompanyData = async () => {
+    const companyRef = doc(db, "usuarios", "hRnJXie6m7TIhIl2EI0ApJIJFVQ2"); // Reemplaza "companyId" con el ID real de la empresa
+    const companySnap = await getDoc(companyRef);
+
+    if (companySnap.exists()) {
+        const data = companySnap.data();
+        company.value = data.nombreEmpresa || 'Sin nombre'
+    } else {
+        console.log("No se encontraron datos para la empresa.");
+    }
+};
+
+// Función para publicar empleo y reiniciar los campos
+const postJob = async () => {
+  try {
+    await addDoc(collection(db, "Empleo"), {
+      Compañía: company.value, // Datos de la compañía, puedes obtenerlos dinámicamente
+      Especialidad: modoEmpleo.value,
+      Titulo: name.value,
+      Duración: time.value,
+      Ubicación: place.value,
+      Salario: salarie.value,
+      Descripción: description.value,
+      Modalidad: modoEmpleo.value,
+      Tipo: tipoEmpleo.value
+    });
+
+    // Reiniciar los campos del formulario
+    name.value = '';
+    time.value = '';
+    place.value = '';
+    salarie.value = '';
+    description.value = '';
+    modoEmpleo.value = '';
+    tipoEmpleo.value = '';
+
+    alert("El empleo ha sido publicado exitosamente.");
+  } catch (error) {
+    console.error("Error publicando el empleo: ", error);
+    alert("Ocurrió un error al publicar el empleo.");
+  }
+};
+
+onMounted(() => {
+    fetchCompanyData();
+});
 </script>
 
 <style scoped>
