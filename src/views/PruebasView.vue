@@ -20,6 +20,10 @@
         <SelectComponent v-model="selectedEmploymentMode" :options="employmentOptions" placeholder="Modalidad de empleo" />
     </div>
 
+    <div class="container">
+        <p>Esto es un correo: {{ email }}</p>
+    </div>
+
     <FooterComponent />
 
 </template>
@@ -28,7 +32,9 @@
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import SelectComponent from '@/components/SelectComponent.vue';
-import { ref } from 'vue';
+import { db } from '@/js/firebase';
+import { doc, getDoc } from "firebase/firestore";
+import { ref, onMounted } from 'vue';
 const faculties = ref([
     { name: "Ciencias y Humanidades", count: 653, icon: "flaticon-tour", description: "Explora áreas de arte, filosofía y más." },
     { name: "Ciencias de la Salud", count: 658, icon: "flaticon-cms", description: "Forma parte de las profesiones de la salud." },
@@ -47,6 +53,26 @@ const employmentOptions = [
     { value: 'remoto', text: 'Remoto' },
     { value: 'hibrido', text: 'Híbrido' }
 ];
+
+const email = ref('');
+
+const fetchUserEmail = async () => {
+  const userId = 'hRnJXie6m7TIhIl2EI0ApJIJFVQ2'; // Cambia esto por el ID del documento que deseas obtener
+  const docRef = doc(db, "usuarios", userId);
+  
+  try {
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      email.value = docSnap.data().correo; // Cambia 'correo' por el nombre del campo que deseas obtener
+    } else {
+      console.log("No existe el documento!");
+    }
+  } catch (error) {
+    console.error("Error al obtener el documento:", error);
+  }
+};
+
+onMounted(fetchUserEmail);
 
 </script>
 
