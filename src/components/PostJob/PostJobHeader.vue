@@ -20,7 +20,7 @@
 import { ref } from 'vue';
 // Datos de la empresa
 const company_user_data = ref({
-    icon: require('@/assets/logo.png'),
+    icon: require('@/assets/img/logoTA.png'),
     name: "Vue",
     email: "vue@vue.com",
     tel: "+1 7676-8090"
