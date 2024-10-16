@@ -110,7 +110,7 @@ const formData = ref({
   nrc: '',
   sitioWeb: '',
   descripcion: '',
-  logoUrl: '', // Nuevo campo para almacenar la URL de la imagen
+  lzogoUrl: '', // Nuevo campo para almacenar la URL de la imagen
 });
 
 const previewImage = ref(null);
