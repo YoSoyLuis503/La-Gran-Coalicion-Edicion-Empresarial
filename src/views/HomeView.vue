@@ -3,24 +3,20 @@
         <NavbarComponent />
     </header>
 
-    <div>
-        <!-- Título principal -->
-        <div class="container-fluid text-center my-5">
-            <div class="row big-background-image">
-                <h1 class="display-4 font-weight-bold text-primary">Busca el equipo de tus sueños</h1>
-                <p class="lead text-muted">Encuentra el mejor equipo para ti.</p>
-            </div>
-            <div class="row">
-                <FacultyList :faculties="faculties" />
-            </div>
-            <div class="row">
-                <JobList :jobs="jobs" />
-            </div>
-            <div class="row">
-                <FooterComponent />
-            </div>
+    <!-- Título principal -->
+    <div class="container-fluid text-center my-5">
+        <div class="row big-background-image">
+            <h1 class="display-4 font-weight-bold text-primary">Busca el equipo de tus sueños</h1>
+            <p class="lead text-muted">Encuentra el mejor equipo para ti.</p>
+        </div>
+        <div class="row">
+            <FacultyList :faculties="faculties" />
+        </div>
+        <div class="row">
+            <JobList :jobs="jobs" />
         </div>
     </div>
+    <FooterComponent />
 </template>
 
 <script setup>
