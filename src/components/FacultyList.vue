@@ -1,17 +1,16 @@
 <template>
     <div class="container-fluid text-center">
         <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6 co-xs-12" v-for="(faculty, index) in faculties" :key="index">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="(faculty, index) in faculties" :key="index">
                 <div class="faculty-box">
                     <div class="row" style="font-size: 1.2em;">
                         <router-link :to="{name: 'post-job' }" class="publicar-en-facultad">
-                            {{faculty.name}}
+                            {{ faculty.name }}
                         </router-link>
                     </div>
-                    <div class="row"><label>({{faculty.count}})</label></div>
-                    <div class="row mt-2"><label>{{faculty.description}}</label></div>
+                    <div class="row"><label>({{ faculty.count }})</label></div>
+                    <div class="row mt-2"><label class="faculty-description">{{ faculty.description }}</label></div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -29,12 +28,11 @@ const faculties = ref([
     { name: "Postgrado", count: 658, icon: "flaticon-real-estate", description: "Amplía tus horizontes académicos." },
     { name: "Otros", count: 658, icon: "flaticon-content", description: "Descubre diversas oportunidades." }
 ]);
-
 </script>
 
 <style scoped>
 .faculty-box {
-    border: 2px solid #007bff;
+    border: 2px solid #000; /* Cambiado a negro */
     border-radius: 10px;
     padding: 20px;
     max-height: 400px;
@@ -46,22 +44,23 @@ const faculties = ref([
 }
 
 .faculty-box:hover {
-    background-color: #007bff;
-    color: white;
+    background-color: #c4c6ce; /* Cambiado a un tono gris al pasar el ratón */
+    color: #ffffff; /* Mantiene el color del texto */
 }
 
 .publicar-en-facultad {
-    color: inherit;
-    text-decoration: none;
+    color: black; /* Color negro para el enlace */
+    text-decoration: none; /* Sin subrayado por defecto */
 }
 
 .publicar-en-facultad:hover {
-    text-decoration: underline;
+    text-decoration: underline; /* Subrayado al pasar el ratón */
 }
 
 .faculty-description {
     font-size: 0.9rem;
-    color: #666;
+    color: #333; /* Asegúrate de que este color esté definido */
     margin-top: 10px;
 }
+
 </style>

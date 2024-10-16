@@ -6,7 +6,7 @@
                     <a href=""><img :src="job.img" alt="job logo"></a>
                 </div>
                 <div class="job-tittle">
-                    <router-link :to="{name: 'candidates'}" ><h4>{{ job.title }}</h4></router-link>
+                    <router-link :to="{name: 'candidates'}"><h4>{{ job.title }}</h4></router-link>
                     <ul>
                         <li>{{ job.company }}</li>
                         <li><i class="fas fa-map-marker-alt"></i>{{ job.location }}</li>
@@ -33,7 +33,7 @@ export default {
 
 <style scoped>
 .single-job-items {
-    border: 2px solid #007bff;
+    border: 2px solid #c4c6ce;
     border-radius: 10px;
     padding: 20px;
     transition: all 0.3s ease;
@@ -46,17 +46,18 @@ export default {
 }
 
 .single-job-items:hover {
-    background-color: #007bff;
-    color: white;
+    background-color: #c4c6ce; /* Cambia a un tono gris al pasar el ratón */
+    color: #ffffff; /* Mantiene el color del texto */
 }
 
-.single-job-items h4 a {
-    color: inherit;
-    text-decoration: none;
+/* Cambiar el color de todos los enlaces a negro */
+.single-job-items a {
+    color: black; /* Color negro para todos los enlaces */
+    text-decoration: none; /* Sin subrayado por defecto */
 }
 
-.single-job-items h4 a:hover {
-    text-decoration: underline;
+.single-job-items a:hover {
+    text-decoration: underline; /* Subrayado al pasar el ratón */
 }
 
 .company-img img {
