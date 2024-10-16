@@ -7,22 +7,27 @@
         <div class="row">
             <div class="col-md-4" v-for="(faculty, index) in faculties" :key="index">
                 <div class="faculty-box">
-                    <div class="row" style="font-size: 1.2em;"><label>{{faculty.name}}</label></div>
-                    <div class="row"><label>({{faculty.count}})</label></div>
-                    <div class="row mt-2"><label>{{faculty.description}}</label></div>
+                    <div class="row" style="font-size: 1.2em;"><label>{{ faculty.name }}</label></div>
+                    <div class="row"><label>({{ faculty.count }})</label></div>
+                    <div class="row mt-2"><label>{{ faculty.description }}</label></div>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <FooterComponent/>
+    <div class="container-fluid">
+        <SelectComponent v-model="selectedEmploymentMode" :options="employmentOptions" placeholder="Modalidad de empleo" />
+    </div>
+
+    <FooterComponent />
 
 </template>
 
 <script setup>
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
+import SelectComponent from '@/components/SelectComponent.vue';
 import { ref } from 'vue';
 const faculties = ref([
     { name: "Ciencias y Humanidades", count: 653, icon: "flaticon-tour", description: "Explora áreas de arte, filosofía y más." },
@@ -34,6 +39,14 @@ const faculties = ref([
     { name: "Postgrado", count: 658, icon: "flaticon-real-estate", description: "Amplía tus horizontes académicos." },
     { name: "Otros", count: 658, icon: "flaticon-content", description: "Descubre diversas oportunidades." }
 ]);
+
+
+const selectedEmploymentMode = ref('');
+const employmentOptions = [
+    { value: 'presencial', text: 'Presencial' },
+    { value: 'remoto', text: 'Remoto' },
+    { value: 'hibrido', text: 'Híbrido' }
+];
 
 </script>
 
