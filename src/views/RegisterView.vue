@@ -172,16 +172,16 @@
 
   
 <script>
-import { db } from '@/js/firebase';
+import { db, storage } from '@/js/firebase';
 import { setDoc, doc } from 'firebase/firestore';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"; // Importar Firebase Auth
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"; 
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default {
   data() {
     return {
       formData: {
         nombreEmpresa: "",
-        usuarioEmpresa: "",
         correo: "",
         contraseña: "",
         direccion: "",
@@ -190,32 +190,47 @@ export default {
         nif: "",
         nrc: "",
         sitioWeb: "",
-        empleados: "",
         descripcion: "",
       },
-      previewImage: null, // Para mostrar la imagen seleccionada
-      passwordVisible: false, // Para controlar la visibilidad de la contraseña
+      selectedFile: null,
+      previewImage: null,
+      passwordVisible: false,
     };
   },
   methods: {
     handleFileUpload(event) {
       const file = event.target.files[0];
       if (file) {
+        this.selectedFile = file;
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.previewImage = e.target.result; // Almacena la imagen como URL
+          this.previewImage = e.target.result;
         };
-        reader.readAsDataURL(file); // Lee el archivo como una URL de datos
+        reader.readAsDataURL(file);
       }
     },
-    async submitForm() {
-      const auth = getAuth(); // Obtener instancia de Firebase Auth
-      try {
-        // Registrar el usuario con correo y contraseña
-        const userCredential = await createUserWithEmailAndPassword(auth, this.formData.correo, this.formData.contraseña);
-        const user = userCredential.user; // Obtener el objeto del usuario
+    async uploadImage(file) {
 
-        // Ahora guardamos los datos adicionales en Firestore
+      const storageRef = ref(storage, `logos_empresas/${Date.now()}_${file.name}`);
+      
+     
+      const snapshot = await uploadBytes(storageRef, file);
+      
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      return downloadURL;
+    },
+    async submitForm() {
+      const auth = getAuth();
+      try {
+
+        const userCredential = await createUserWithEmailAndPassword(auth, this.formData.correo, this.formData.contraseña);
+        const user = userCredential.user;
+
+        let imageUrl = null;
+        if (this.selectedFile) {
+          imageUrl = await this.uploadImage(this.selectedFile);
+        }
+        
         await setDoc(doc(db, "usuarios", user.uid), {
           nombreEmpresa: this.formData.nombreEmpresa,
           correo: this.formData.correo,
@@ -227,9 +242,10 @@ export default {
           sitioWeb: this.formData.sitioWeb,
           descripcion: this.formData.descripcion,
           tipo: "empresa",
+          logoUrl: imageUrl,
         });
 
-        console.log("Documento registrado con ID: ", this.formData.correo); // ID del usuario creado
+        console.log("Documento registrado con ID: ", this.formData.correo);
         if (user) {
           console.log("Usuario logueado:", user);
           window.location.href = "/";
@@ -241,18 +257,15 @@ export default {
       }
     },
     togglePassword() {
-      this.passwordVisible = !this.passwordVisible; // Cambia la visibilidad de la contraseña
+      this.passwordVisible = !this.passwordVisible;
     },
     formatPhone() {
-      // Remover cualquier caracter que no sea número
       this.formData.telefono = this.formData.telefono.replace(/\D/g, '');
 
-      // Limitar a 8 dígitos
       if (this.formData.telefono.length > 8) {
         this.formData.telefono = this.formData.telefono.substring(0, 8);
       }
 
-      // Insertar el guion después de los primeros 4 dígitos
       if (this.formData.telefono.length > 4) {
         this.formData.telefono = this.formData.telefono.replace(/(\d{4})(\d+)/, '$1-$2');
       }
@@ -288,19 +301,19 @@ export default {
 
 .containerRegistro {
     justify-items: center;
-    background-color: rgba(255, 255, 255, 0.7); /* Fondo blanco con opacidad */
+    background-color: rgba(255, 255, 255, 0.7);
     display: grid;
     grid-template-columns: repeat(1, 5fr);
     gap: 10px;
     width: max-content;
     height: max-content;
     border-radius: 5px;
-    padding: 20px; /* Aumentado para darle más espacio */
+    padding: 20px;
     color: #000000;
     margin: 10px;
-    backdrop-filter: blur(10px); /* Efecto de difuminación */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombras suaves */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Ligeramente visible */
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 
@@ -367,17 +380,17 @@ body {
 .toggle-password {
   position: absolute;
   top: 67%;
-  right: 15px; /* Ajusta la posición del botón según sea necesario */
+  right: 15px;
   transform: translateY(-50%);
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0; /* Elimina el padding del botón */
+  padding: 0;
 }
 
 .eye-icon {
-  width: 30px; /* Ajusta el tamaño como necesites */
-  height: auto; /* Mantiene la proporción de la imagen */
+  width: 30px;
+  height: auto;
 }
 
   </style>
