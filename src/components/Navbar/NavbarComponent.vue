@@ -1,9 +1,9 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <router-link :to="{name:'Home'}">
                 <img src="../../assets/img/logoTA.png" alt="Logo" height="50">
-            </a>
+            </router-link>    
             <!-- Botón de alternancia para la vista móvil
             Este botón se muestra en dispositivos móviles y colapsa/expande el menú de navegación -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
