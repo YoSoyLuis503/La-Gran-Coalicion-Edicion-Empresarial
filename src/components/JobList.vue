@@ -45,7 +45,7 @@ export default {
 
 .section-tittle h2 {
     font-size: 2.5rem;
-    color: #007bff;
+    color: #0c0c0c;
 }
 
 .row {

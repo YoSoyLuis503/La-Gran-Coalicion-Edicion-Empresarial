@@ -40,7 +40,7 @@ const jobs = ref([
 
 <style scoped>
 .big-background-image {
-    background-image: url('@/assets/img/HEmpresa1.jpg');
+    background-image: url('@/assets/img/R.jpg');
     background-size: cover;
     background-position: center;
     height: 100vh;
