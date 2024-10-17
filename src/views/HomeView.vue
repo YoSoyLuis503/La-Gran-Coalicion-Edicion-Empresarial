@@ -12,7 +12,8 @@
         <div class="row">
             <FacultyList :faculties="faculties" />
         </div>
-        <div class="row">
+        <div class="row mt-5">
+            <h2 class="section-title">Empleos publicados</h2>
             <JobList :jobs="jobs" />
         </div>
     </div>
@@ -22,20 +23,25 @@
 <script setup>
 import { ref } from 'vue';
 import FacultyList from '@/components/FacultyList.vue';
-import JobList from '@/components/JobList.vue';
+import JobList from '@/components/JobItem.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 // // Definir los trabajos
 const jobs = ref([
-    { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: " Hace 7 horas"},
-    { title: "Beta Tester", company: "Team Cherry", location: "La Unión", salary: "$1000-1500", type: "Tiempo Completo", time: " Hace 1 hora"},
-    { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: " Hace 7 horas"}
+    { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: " Hace 7 horas" },
+    { title: "Beta Tester", company: "Team Cherry", location: "La Unión", salary: "$1000-1500", type: "Tiempo Completo", time: " Hace 1 hora" },
+    { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: " Hace 7 horas" }
 
 
 ]);
 </script>
 
 <style scoped>
+.section-tittle h2 {
+    font-size: 2.5rem;
+    color: #0c0c0c;
+}
+
 .big-background-image {
     background-image: url('@/assets/img/R.jpg');
     background-size: cover;
