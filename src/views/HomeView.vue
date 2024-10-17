@@ -27,8 +27,10 @@ import FooterComponent from '@/components/FooterComponent.vue';
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 // // Definir los trabajos
 const jobs = ref([
-    { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: " Hace 7 horas", img: "src/assets/img/prueba.png" },
-    { title: "Beta Tester", company: "Team Cherry", location: "La Unión", salary: "$1000-1500", type: "Tiempo Completo", time: " Hace 1 hora", img: "src/assets/img/prueba.png" }
+    { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: " Hace 7 horas"},
+    { title: "Beta Tester", company: "Team Cherry", location: "La Unión", salary: "$1000-1500", type: "Tiempo Completo", time: " Hace 1 hora"},
+    { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: " Hace 7 horas"}
+
 
 ]);
 </script>
