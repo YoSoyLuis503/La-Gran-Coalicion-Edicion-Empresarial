@@ -8,17 +8,17 @@
                   <img src="@/assets/img/logoTA.png">
                 </div>
                 <div class="job-tittle">
-                  <router-link :to="{ name: 'candidates' }"><h4>{{ job.title }}</h4></router-link>
+                  <router-link :to="{ name: 'candidates' }"><h4>{{ job.Titulo }}</h4></router-link>
                   <ul>
-                    <li>{{ job.company }}</li>
-                    <li><i class="fas fa-map-marker-alt"></i>{{ job.location }}</li>
-                    <li>{{ job.salary }}</li>
+                    <li>{{ job.Compañía }}</li>
+                    <li><i class="fas fa-map-marker-alt"></i>{{ job.Ubicación }}</li>
+                    <li>{{ job.Salario }}</li>
                   </ul>
                 </div>
               </div>
               <div class="items-link f-right">
-                <a href="">{{ job.type }}</a>
-                <span>{{ job.time }}</span>
+                {{ job.Tipo }} <br>
+                <span>{{ job.Modalidad }}</span>
               </div>
             </div>
           </div>

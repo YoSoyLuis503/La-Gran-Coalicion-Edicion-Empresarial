@@ -21,19 +21,36 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import FacultyList from '@/components/FacultyList.vue';
 import JobList from '@/components/JobItem.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
-// // Definir los trabajos
-const jobs = ref([
-    { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: " Hace 7 horas" },
-    { title: "Beta Tester", company: "Team Cherry", location: "La Unión", salary: "$1000-1500", type: "Tiempo Completo", time: " Hace 1 hora" },
-    { title: "UX Designer", company: "Anonimo", location: "El Salvador, San Miguel", salary: "$150 - $300", type: "Tiempo completo", time: " Hace 7 horas" }
+import { ref, onMounted } from 'vue';
+import { db } from '@/js/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
+// Definir una referencia reactiva para almacenar los empleos
+const jobs = ref([]);
 
-]);
+// Función para obtener los datos de la colección "Empleo"
+const getJobs = async () => {
+  try {
+    // Obtener los documentos de la colección "Empleo"
+    const querySnapshot = await getDocs(collection(db, 'Empleo'));
+
+    // Recorrer cada documento y añadirlo al array jobs
+    querySnapshot.forEach((doc) => {
+      jobs.value.push({ id: doc.id, ...doc.data() });
+    });
+  } catch (error) {
+    console.error("Error al obtener los empleos: ", error);
+  }
+};
+
+// Llamar a getJobs cuando el componente se monte
+onMounted(() => {
+  getJobs();
+});
 </script>
 
 <style scoped>
