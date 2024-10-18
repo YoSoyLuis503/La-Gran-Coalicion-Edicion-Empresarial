@@ -12,7 +12,7 @@
                   <ul>
                     <li>{{ job.Compañía }}</li>
                     <li><i class="fas fa-map-marker-alt"></i>{{ job.Ubicación }}</li>
-                    <li>{{ job.Salario }}</li>
+                    <li>${{ job.Salario }}</li>
                   </ul>
                 </div>
               </div>
