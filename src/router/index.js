@@ -5,12 +5,14 @@ import LoginView from '@/views/LoginView.vue';
 import CandidatesView from '@/views/CandidatesView.vue';
 import PruebasView from '@/views/PruebasView.vue';
 import PostJobView from '@/views/PostJobView.vue';
+import { getAuth } from 'firebase/auth';
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: HomeView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/login',
@@ -28,16 +30,19 @@ const routes = [
     path: '/candidates',
     name: 'candidates',
     component: CandidatesView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/prueba',
     name: 'prueba',
     component: PruebasView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/post-job',
     name: 'post-job',
-    component: PostJobView
+    component: PostJobView,
+    meta: { requiresAuth: true }
   }
 ];
 
@@ -47,9 +52,18 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || 'Título predeterminado';
-  next();
-});
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
+  if (requiresAuth && !user) {
+    next({ name: 'login' });
+  } else if ((to.name === 'login' || to.name === 'register') && user) {
+    next({ name: 'Home' });
+  } else {
+    document.title = to.meta.title || 'Título predeterminado';
+    next();
+  }
+});
 
 export default router;
