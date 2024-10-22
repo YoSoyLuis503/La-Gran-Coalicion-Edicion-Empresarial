@@ -25,6 +25,7 @@
           type="file"
           id="formFile"
           @change="handleFileUpload"
+          accept="image/*"
           required
         />
       </div>
@@ -104,6 +105,7 @@
           class="form-select rounded-input"
           id="sector"
           v-model="formData.sector"
+          @change="handleSectorChange"
           required
         >
           <option disabled value="">Escoger Sector</option>
@@ -114,6 +116,14 @@
           <option value="Comercio">Comercio</option>
           <option value="Otro">Otro</option>
         </select>
+        <input
+          v-if="formData.sector === 'Otro'"
+          type="text"
+          id="otroSector"
+          class="form-control rounded-input mt-2"
+          placeholder="Especifique otro sector"
+          v-model="formData.otroSector"
+        />
       </div>
 
       <div class="form-group mb-3">
@@ -157,19 +167,20 @@
           type="text"
           id="descripcion"
           class="form-control rounded-input"
-          placeholder="Descripción"
+          placeholder="Escribe una breve descripción"
           v-model="formData.descripcion"
         />
       </div>
 
-      <button type="submit" class="btn btn-primary rounded-button w-100">
-        INICIAR SESIÓN
+      <button type="submit" class="btn btn-primary btn-block rounded-input">
+        REGISTRARSE
       </button>
     </form>
   </div>
 </template>
   
 <script>
+import router from '@/router';
 import { db, storage } from '@/js/firebase';
 import { setDoc, doc } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"; 
@@ -185,6 +196,7 @@ export default {
         direccion: "",
         telefono: "",
         sector: "",
+        otroSector: "",
         nif: "",
         nrc: "",
         sitioWeb: "",
@@ -198,29 +210,36 @@ export default {
   methods: {
     handleFileUpload(event) {
       const file = event.target.files[0];
-      if (file) {
+      if (file && file.type.startsWith("image/")) {
         this.selectedFile = file;
         const reader = new FileReader();
         reader.onload = (e) => {
           this.previewImage = e.target.result;
         };
         reader.readAsDataURL(file);
+      } else {
+        alert("Por favor, selecciona un archivo de imagen.");
+        event.target.value = null;
       }
     },
     async uploadImage(file) {
-
       const storageRef = ref(storage, `logos_empresas/${Date.now()}_${file.name}`);
-      
-     
       const snapshot = await uploadBytes(storageRef, file);
-      
       const downloadURL = await getDownloadURL(snapshot.ref);
       return downloadURL;
     },
+    isStrongPassword(password) {
+      const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      return strongPasswordRegex.test(password);
+    },
     async submitForm() {
+      if (!this.isStrongPassword(this.formData.contraseña)) {
+        alert("La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.");
+        return;
+      }
+
       const auth = getAuth();
       try {
-
         const userCredential = await createUserWithEmailAndPassword(auth, this.formData.correo, this.formData.contraseña);
         const user = userCredential.user;
 
@@ -229,12 +248,12 @@ export default {
           imageUrl = await this.uploadImage(this.selectedFile);
         }
         
-        await setDoc(doc(db, "usuarios", user.uid), {
+        await setDoc(doc(db, "usuariosEmpresa", user.uid), {
           nombreEmpresa: this.formData.nombreEmpresa,
           correo: this.formData.correo,
           direccion: this.formData.direccion,
           telefono: this.formData.telefono,
-          sector: this.formData.sector,
+          sector: this.formData.sector === "Otro" ? this.formData.otroSector : this.formData.sector, // Guardar el valor del input "Otro"
           nif: this.formData.nif,
           nrc: this.formData.nrc,
           sitioWeb: this.formData.sitioWeb,
@@ -254,9 +273,15 @@ export default {
         console.error("Error al registrar el usuario: ", e);
       }
     },
+
+    redirectToLogin() {
+      router.push('/Login');
+    },
+
     togglePassword() {
       this.passwordVisible = !this.passwordVisible;
     },
+
     formatPhone() {
       this.formData.telefono = this.formData.telefono.replace(/\D/g, '');
 
@@ -273,7 +298,6 @@ export default {
 </script>
 
 
-  
   <style scoped>
   html{
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
@@ -333,6 +357,7 @@ export default {
   border-radius: 25px;
   padding: 10px;
   font-size: 16px;
+  width: 500px;
 }
 
 .rounded-image {
