@@ -175,6 +175,9 @@
       <button type="submit" class="btn btn-primary btn-block rounded-input">
         REGISTRARSE
       </button>
+      <button type="button" class="btn btn-link" @click="redirectToLogin">
+        ¿Ya tienes una cuenta? Incia Sesión Aquí
+      </button>
     </form>
   </div>
 </template>
