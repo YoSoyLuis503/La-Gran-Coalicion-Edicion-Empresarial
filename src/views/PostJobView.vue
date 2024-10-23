@@ -13,12 +13,37 @@
     <div class="row mt-3">
       <!-- Usamos v-for para iterar sobre los inputs -->
       <div class="col-6" v-for="(input, index) in textInputs" :key="index">
-        <PostJobTextInput :placeholder="input.placeholder" :type="input.type" v-model="input.model" :required="input.required" />
+        <PostJobTextInput :placeholder="input.placeholder" :type="input.type" v-model="input.model"
+          :required="input.required" />
       </div>
     </div>
 
     <div class="row">
-      <PostJobTextTarea v-model="description" />
+      <h3>Duración</h3> <br>
+      <div class="col -6">
+        <input class="form-control" type="number" name="numero_de" id="numero_de" min="0" step="1" /><br>
+      </div>
+      <div class="col -6">
+        <SelectComponent v-model="selectOptions[2]" :options="selectOptions[2].options"
+          :placeholder="selectOptions[2].placeholder" />
+      </div>
+    </div>
+    <div class="row">
+      <h3>Lugar de trabajo</h3> <br>
+      <div class="col -6">
+        <SelectComponent v-model="selectOptions[2]" :options="selectOptions[2].options"
+        :placeholder="selectOptions[2].placeholder" />
+      </div>
+      <div class="col -6">
+        <SelectComponent v-model="selectOptions[2]" :options="selectOptions[2].options"
+          :placeholder="selectOptions[2].placeholder" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col text-start">
+        <textarea class="form-control" rows="3" placeholder="Descripción" required v-model="description"></textarea>
+      </div>
     </div>
 
     <!-- Campos adicionales -->
@@ -43,8 +68,8 @@
 <script setup>
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 import PostJobHeader from '@/components/PostJob/PostJobHeader.vue';
-import PostJobTextInput from '@/components/InputComponent.vue';
-import PostJobTextTarea from '@/components/PostJob/PostJobTextTarea.vue';
+// import PostJobTextInput from '@/components/InputComponent.vue';
+// import PostJobTextTarea from '@/components/PostJob/PostJobTextTarea.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import SelectComponent from '@/components/SelectComponent.vue';
 import { ref, onMounted } from 'vue';
@@ -70,6 +95,7 @@ const textInputs = [
 // Datos de los selects
 const modoEmpleo = ref('');
 const tipoEmpleo = ref('');
+const tiemposEmpleo = ref('');
 
 // Opciones para los selects
 const modalidades = [
@@ -84,31 +110,39 @@ const tipos = [
   { value: 'Freelance', text: 'Freelance' }
 ];
 
+
+const tiempos = [
+  { value: 'Semanas', text: 'Semanas' },
+  { value: 'Meses', text: 'Meses' },
+  { value: 'Años', text: 'Años' }
+];
+
+
 // Array para los selects con su configuración
 const selectOptions = [
   { model: modoEmpleo, options: modalidades, placeholder: 'Modalidad de empleo' },
   { model: tipoEmpleo, options: tipos, placeholder: 'Tipo de empleo' },
+  { model: tiemposEmpleo, options: tiempos, placeholder: '' },
 ];
 
 // Función para obtener datos de la empresa desde Firestore
 const fetchCompanyData = async () => {
-    const companyRef = doc(db, "usuarios", "hRnJXie6m7TIhIl2EI0ApJIJFVQ2"); // Reemplaza "companyId" con el ID real de la empresa
-    const companySnap = await getDoc(companyRef);
+  const companyRef = doc(db, "usuarios", "hRnJXie6m7TIhIl2EI0ApJIJFVQ2"); // Reemplaza "companyId" con el ID real de la empresa
+  const companySnap = await getDoc(companyRef);
 
-    if (companySnap.exists()) {
-        const data = companySnap.data();
-        company.value = data.nombreEmpresa || 'Sin nombre'
-    } else {
-        console.log("No se encontraron datos para la empresa.");
-    }
+  if (companySnap.exists()) {
+    const data = companySnap.data();
+    company.value = data.nombreEmpresa || 'Sin nombre'
+  } else {
+    console.log("No se encontraron datos para la empresa.");
+  }
 };
 
 // Función para publicar empleo y reiniciar los campos
 const postJob = async () => {
   try {
-    await addDoc(collection(db, "Empleo"), {
+    await addDoc(collection(db, "empleos"), {
       Compañía: company.value, // Datos de la compañía, puedes obtenerlos dinámicamente
-      Especialidad: modoEmpleo.value,
       Titulo: name.value,
       Duración: time.value,
       Ubicación: place.value,
@@ -135,7 +169,7 @@ const postJob = async () => {
 };
 
 onMounted(() => {
-    fetchCompanyData();
+  fetchCompanyData();
 });
 </script>
 
@@ -153,5 +187,11 @@ onMounted(() => {
   z-index: 1;
   width: 100%;
   text-align: center;
+}
+
+.form-control {
+  padding: 10px;
+  font-size: 1em;
+  border-radius: 5px;
 }
 </style>
