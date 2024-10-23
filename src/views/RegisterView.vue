@@ -229,7 +229,7 @@ export default {
       return downloadURL;
     },
     isStrongPassword(password) {
-      const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
       return strongPasswordRegex.test(password);
     },
     async submitForm() {
