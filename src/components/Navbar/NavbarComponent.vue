@@ -14,8 +14,7 @@
                 <NavbarRoutes />
             </div>
             <div class="d-flex">
-                <NavbarRegisterButton />
-                <NavbarLoginButton />
+                <SignOut/>
             </div>
         </div>
     </nav>
@@ -23,8 +22,7 @@
 
 <script setup>
 import NavbarRoutes from './NavbarRoutes.vue';
-import NavbarRegisterButton from './NavbarRegisterButton.vue';
-import NavbarLoginButton from './NavbarLoginButton.vue';
+import SignOut from './SignOut.vue';
 
 </script>
 

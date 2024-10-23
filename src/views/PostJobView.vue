@@ -21,26 +21,34 @@
     <div class="row">
       <h3>Duración</h3> <br>
       <div class="col -6">
-        <input class="form-control" type="number" name="numero_de" id="numero_de" min="0" step="1" /><br>
+        <input class="form-control" type="number" placeholder="0" min="0" step="1" /><br>
       </div>
       <div class="col -6">
-        <SelectComponent v-model="selectOptions[2]" :options="selectOptions[2].options"
-          :placeholder="selectOptions[2].placeholder" />
+        <select class="form-select form-control" aria-label="Default select example">
+          <option selected>Selecionar período de tiempo</option>
+          <option>Semanas</option>
+          <option>Meses</option>
+          <option>Años</option>
+        </select>
       </div>
     </div>
     <div class="row">
       <h3>Lugar de trabajo</h3> <br>
       <div class="col -6">
-        <SelectComponent v-model="selectOptions[2]" :options="selectOptions[2].options"
-        :placeholder="selectOptions[2].placeholder" />
+        <select class="form-select form-control" v-model="departamento" @change="seleccionarDistritos">
+          <option selected disabled>Departamento</option>
+          <option v-for="(distritos, dept) in departamentos" :key="dept">{{ dept }}</option>
+        </select>
       </div>
       <div class="col -6">
-        <SelectComponent v-model="selectOptions[2]" :options="selectOptions[2].options"
-          :placeholder="selectOptions[2].placeholder" />
+        <select class="form-control" v-model="distrito" required>
+          <option selected disabled>Distrito</option>
+          <option v-for="distrito in distritosDisponibles" :key="distrito">{{ distrito }}</option>
+        </select>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-4">
       <div class="col text-start">
         <textarea class="form-control" rows="3" placeholder="Descripción" required v-model="description"></textarea>
       </div>
@@ -71,7 +79,7 @@ import PostJobHeader from '@/components/PostJob/PostJobHeader.vue';
 // import PostJobTextInput from '@/components/InputComponent.vue';
 // import PostJobTextTarea from '@/components/PostJob/PostJobTextTarea.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
-import SelectComponent from '@/components/SelectComponent.vue';
+// import SelectComponent from '@/components/SelectComponent.vue';
 import { ref, onMounted } from 'vue';
 import { db } from '@/js/firebase';
 import { collection, addDoc, doc, getDoc } from 'firebase/firestore';
@@ -92,12 +100,27 @@ const textInputs = [
   { placeholder: 'Salario', type: 'text', model: salarie, required: true },
 ];
 
+const departamentos = {
+  "Morazán": ["Morazán Norte", "Morazán Sur"],
+  "San Miguel": ["SM Norte", "SM Centro", "SM Oeste"],
+  "La Unión": ["La Unión Norte", "La Unión Sur"],
+  "Usulután": ["Usulután Norte", "Usulután Sur", "Usulután Oeste"],
+};
+
+const departamento = ref('Departamento');
+const distrito = ref('Distrito');
+const distritosDisponibles = ref([]);
+
+const seleccionarDistritos = () => {
+  distritosDisponibles.value = departamentos[departamento.value] || [];
+};
+
 // Datos de los selects
 const modoEmpleo = ref('');
 const tipoEmpleo = ref('');
 const tiemposEmpleo = ref('');
 
-// Opciones para los selects
+// distritoes para los selects
 const modalidades = [
   { value: 'Presencial', text: 'Presencial' },
   { value: 'Remoto', text: 'Remoto' },
