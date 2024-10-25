@@ -60,7 +60,7 @@
     <div class="row">
       <h3>Salario $</h3> <br>
       <div class="col">
-        <input class="form-control" type="number" placeholder="0" min="0" step="any" v-model="salarie" required /><br>
+        <input class="form-control" type="number" placeholder="400" min="400" step="50" v-model="salarie" required /><br>
       </div>
     </div>
 
@@ -84,7 +84,8 @@ import FooterComponent from '@/components/FooterComponent.vue';
 // import SelectComponent from '@/components/SelectComponent.vue';
 import { ref, onMounted } from 'vue';
 import { db } from '@/js/firebase';
-import { collection, addDoc, doc, getDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, getDoc, Timestamp } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 // Datos de los inputs de texto
 const company = ref('');
@@ -119,7 +120,9 @@ const seleccionarDistritos = () => {
 
 // Función para obtener datos de la empresa desde Firestore
 const fetchCompanyData = async () => {
-  const companyRef = doc(db, "usuarios", "hRnJXie6m7TIhIl2EI0ApJIJFVQ2"); // Reemplaza "companyId" con el ID real de la empresa
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
+  const companyRef = doc(db, "usuariosEmpresa", currentUser.uid); // Reemplaza "companyId" con el ID real de la empresa
   const companySnap = await getDoc(companyRef);
 
   if (companySnap.exists()) {
@@ -136,16 +139,19 @@ const postJob = async () => {
     await addDoc(collection(db, "empleos"), {
       Compañía: company.value, // Datos de la compañía desde Firestore
       Título: title.value,
+      Descripción: description.value,
       Duración: time.value + " " + periodoDeTiempo.value,
       Departamento: departamento.value,
       Distrito: distrito.value,
       Salario: salarie.value,
       Modalidad: modoEmpleo.value,
       Tipo: tipoEmpleo.value,
+      fechaPublicacion: Timestamp.now(), // Fecha y hora de publicación
     });
 
     // Reiniciar los campos del formulario
     title.value = '';
+    description.value = '';
     time.value = '';
     periodoDeTiempo.value = 'Meses';
     departamento.value = 'Departamento';

@@ -5,16 +5,16 @@
     </div>
     <div class="col">
         <div class="text-start">
-            <label>Nombre: {{ company_user_data.name }}</label>
+            <h6>Nombre: {{ company_user_data.name }}</h6>
         </div>
         <div class="text-start mt-2">
-            <label>Correo: {{ company_user_data.email }}</label>
+            <h6>Correo: {{ company_user_data.email }}</h6>
         </div>
         <div class="text-start mt-2">
-            <label>Telefono: {{ company_user_data.tel }}</label>
+            <h6>Teléfono: {{ company_user_data.tel }}</h6>
         </div>
         <div class="text-start mt-2">
-            <label>Sector: {{ company_user_data.sector }}</label>
+            <h6>Sector: {{ company_user_data.sector }}</h6>
         </div>
     </div>
 </template>
@@ -23,10 +23,11 @@
 import { ref, onMounted } from 'vue';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/js/firebase';
+import { getAuth } from 'firebase/auth';
 
-// Datos reactivas de la empresa
+// Datos reactivos de la empresa
 const company_user_data = ref({
-    icon: require('@/assets/img/logoTA.png'), // Coloca un ícono por defecto
+    icon: require('@/assets/img/logoTA.png'), // Ícono por defecto
     name: '',
     email: '',
     tel: '',
@@ -35,20 +36,27 @@ const company_user_data = ref({
 
 // Función para obtener datos de la empresa desde Firestore
 const fetchCompanyData = async () => {
-    const companyRef = doc(db, "usuarios", "hRnJXie6m7TIhIl2EI0ApJIJFVQ2"); // Reemplaza "companyId" con el ID real de la empresa
-    const companySnap = await getDoc(companyRef);
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    
+    if (currentUser) {
+        const companyRef = doc(db, "usuariosEmpresa", currentUser.uid);
+        const companySnap = await getDoc(companyRef);
 
-    if (companySnap.exists()) {
-        const data = companySnap.data();
-        company_user_data.value = {
-            icon: data.icon || company_user_data.value.icon, // Usa un ícono por defecto si no existe en Firestore
-            name: data.nombreEmpresa || 'Sin nombre',
-            email: data.correo || 'Sin correo',
-            tel: data.telefono || 'Sin teléfono',
-            sector: data.sector || 'Sin sector'
-        };
+        if (companySnap.exists()) {
+            const data = companySnap.data();
+            company_user_data.value = {
+                icon: data.icon || company_user_data.value.icon,
+                name: data.nombreEmpresa || 'Sin nombre',
+                email: data.correo || 'Sin correo',
+                tel: data.telefono || 'Sin teléfono',
+                sector: data.sector || 'Sin sector'
+            };
+        } else {
+            console.log("No se encontraron datos para la empresa.");
+        }
     } else {
-        console.log("No se encontraron datos para la empresa.");
+        console.log("El usuario no ha iniciado sesión.");
     }
 };
 
