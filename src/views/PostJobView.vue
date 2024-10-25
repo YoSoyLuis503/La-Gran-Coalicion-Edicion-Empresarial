@@ -11,24 +11,21 @@
 
     <!-- Campos del formulario -->
     <div class="row mt-3">
-      <!-- Usamos v-for para iterar sobre los inputs -->
-      <div class="col-6" v-for="(input, index) in textInputs" :key="index">
-        <PostJobTextInput :placeholder="input.placeholder" :type="input.type" v-model="input.model"
-          :required="input.required" />
-      </div>
+      <h3>Titulo</h3> <br>
+      <PostJobTextInput placeholder="Título del puesto" type="text" v-model="title" required="true" />
     </div>
-
+    <div class="row mt-3">
+      <h3>Descripción</h3> <br>
+      <textarea class="form-control" rows="3" placeholder="Descripción" v-model="description" required></textarea>
+    </div>
     <div class="row">
       <h3>Duración</h3> <br>
       <div class="col -6">
-        <input class="form-control" type="number" placeholder="0" min="0" step="1" /><br>
+        <input class="form-control" type="number" placeholder="0" min="0" step="1" v-model="time" /><br>
       </div>
       <div class="col -6">
-        <select class="form-select form-control" aria-label="Default select example">
-          <option selected>Selecionar período de tiempo</option>
-          <option>Semanas</option>
-          <option>Meses</option>
-          <option>Años</option>
+        <select class="form-select form-control" v-model="periodoDeTiempo">
+          <option v-for="(t) in SMA" :key="t">{{ t }}</option>
         </select>
       </div>
     </div>
@@ -41,24 +38,29 @@
         </select>
       </div>
       <div class="col -6">
-        <select class="form-control" v-model="distrito" required>
+        <select class="form-select form-control" v-model="distrito" required>
           <option selected disabled>Distrito</option>
           <option v-for="distrito in distritosDisponibles" :key="distrito">{{ distrito }}</option>
         </select>
       </div>
     </div>
-
-    <div class="row mt-4">
-      <div class="col text-start">
-        <textarea class="form-control" rows="3" placeholder="Descripción" required v-model="description"></textarea>
+    <div class="row">
+      <h3>Modalidad y tipo de empleo</h3> <br>
+      <div class="col -6">
+        <select class="form-select form-control" v-model="modoEmpleo">
+          <option v-for="(t) in modalidadesEmpleo" :key="t">{{ t }}</option>
+        </select>
+      </div>
+      <div class="col -6">
+        <select class="form-select form-control" v-model="tipoEmpleo" required>
+          <option v-for="(t) in tiposEmpleo" :key="t">{{ t }}</option>
+        </select>
       </div>
     </div>
-
-    <!-- Campos adicionales -->
-    <div class="row mt-3">
-      <!-- Usamos v-for para iterar sobre los select components -->
-      <div class="col-6 text-start" v-for="(select, index) in selectOptions" :key="index">
-        <SelectComponent v-model="select.model" :options="select.options" :placeholder="select.placeholder" />
+    <div class="row">
+      <h3>Salario $</h3> <br>
+      <div class="col">
+        <input class="form-control" type="number" placeholder="0" min="0" step="any" v-model="salarie" required /><br>
       </div>
     </div>
 
@@ -76,7 +78,7 @@
 <script setup>
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 import PostJobHeader from '@/components/PostJob/PostJobHeader.vue';
-// import PostJobTextInput from '@/components/InputComponent.vue';
+import PostJobTextInput from '@/components/InputComponent.vue';
 // import PostJobTextTarea from '@/components/PostJob/PostJobTextTarea.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 // import SelectComponent from '@/components/SelectComponent.vue';
@@ -86,20 +88,16 @@ import { collection, addDoc, doc, getDoc } from 'firebase/firestore';
 
 // Datos de los inputs de texto
 const company = ref('');
-const name = ref('');
+const title = ref('');
 const time = ref('');
-const place = ref('');
 const salarie = ref('');
 const description = ref('');
 
 // Array para los campos de texto con su configuración
-const textInputs = [
-  { placeholder: 'Nombre del puesto', type: 'text', model: name, required: true },
-  { placeholder: 'Duración', type: 'text', model: time, required: true },
-  { placeholder: 'Lugar de trabajo', type: 'text', model: place, required: true },
-  { placeholder: 'Salario', type: 'text', model: salarie, required: true },
-];
 
+const SMA = ["Semanas", "Meses", "Años"]
+const modalidadesEmpleo = ["Presencial", "Virtual", "Semi Presencial"]
+const tiposEmpleo = ["Tiempo completo", "Medio tiempo", "Freelance"]
 const departamentos = {
   "Morazán": ["Morazán Norte", "Morazán Sur"],
   "San Miguel": ["SM Norte", "SM Centro", "SM Oeste"],
@@ -107,6 +105,10 @@ const departamentos = {
   "Usulután": ["Usulután Norte", "Usulután Sur", "Usulután Oeste"],
 };
 
+// Datos de los selects
+const modoEmpleo = ref('Presencial');
+const tipoEmpleo = ref('Tiempo completo');
+const periodoDeTiempo = ref('Meses');
 const departamento = ref('Departamento');
 const distrito = ref('Distrito');
 const distritosDisponibles = ref([]);
@@ -114,39 +116,6 @@ const distritosDisponibles = ref([]);
 const seleccionarDistritos = () => {
   distritosDisponibles.value = departamentos[departamento.value] || [];
 };
-
-// Datos de los selects
-const modoEmpleo = ref('');
-const tipoEmpleo = ref('');
-const tiemposEmpleo = ref('');
-
-// distritoes para los selects
-const modalidades = [
-  { value: 'Presencial', text: 'Presencial' },
-  { value: 'Remoto', text: 'Remoto' },
-  { value: 'Híbrido', text: 'Híbrido' }
-];
-
-const tipos = [
-  { value: 'Tiempo Completo', text: 'Tiempo Completo' },
-  { value: 'Medio Tiempo', text: 'Medio Tiempo' },
-  { value: 'Freelance', text: 'Freelance' }
-];
-
-
-const tiempos = [
-  { value: 'Semanas', text: 'Semanas' },
-  { value: 'Meses', text: 'Meses' },
-  { value: 'Años', text: 'Años' }
-];
-
-
-// Array para los selects con su configuración
-const selectOptions = [
-  { model: modoEmpleo, options: modalidades, placeholder: 'Modalidad de empleo' },
-  { model: tipoEmpleo, options: tipos, placeholder: 'Tipo de empleo' },
-  { model: tiemposEmpleo, options: tiempos, placeholder: '' },
-];
 
 // Función para obtener datos de la empresa desde Firestore
 const fetchCompanyData = async () => {
@@ -165,24 +134,25 @@ const fetchCompanyData = async () => {
 const postJob = async () => {
   try {
     await addDoc(collection(db, "empleos"), {
-      Compañía: company.value, // Datos de la compañía, puedes obtenerlos dinámicamente
-      Titulo: name.value,
-      Duración: time.value,
-      Ubicación: place.value,
+      Compañía: company.value, // Datos de la compañía desde Firestore
+      Título: title.value,
+      Duración: time.value + " " + periodoDeTiempo.value,
+      Departamento: departamento.value,
+      Distrito: distrito.value,
       Salario: salarie.value,
-      Descripción: description.value,
       Modalidad: modoEmpleo.value,
-      Tipo: tipoEmpleo.value
+      Tipo: tipoEmpleo.value,
     });
 
     // Reiniciar los campos del formulario
-    name.value = '';
+    title.value = '';
     time.value = '';
-    place.value = '';
+    periodoDeTiempo.value = 'Meses';
+    departamento.value = 'Departamento';
+    distrito.value = 'Distrito';
     salarie.value = '';
-    description.value = '';
-    modoEmpleo.value = '';
-    tipoEmpleo.value = '';
+    modoEmpleo.value = 'Presencial';
+    tipoEmpleo.value = 'Tiempo completo';
 
     alert("El empleo ha sido publicado exitosamente.");
   } catch (error) {
