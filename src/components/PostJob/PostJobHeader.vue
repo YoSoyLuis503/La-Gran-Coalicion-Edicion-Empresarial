@@ -51,7 +51,7 @@ const fetchCompanyData = async () => {
         if (companySnap.exists()) {
             const data = companySnap.data();
             company_user_data.value = {
-                icon: data.icon || company_user_data.value.icon,
+                icon: data.logoUrl || company_user_data.value.icon,
                 name: data.nombreEmpresa || 'Sin nombre',
                 email: data.correo || 'Sin correo',
                 tel: data.telefono || 'Sin teléfono',
