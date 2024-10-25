@@ -6,7 +6,7 @@
   <div class="container-fluid">
     <!-- Información de la empresa -->
     <div class="row">
-      <PostJobHeader />
+      <PostJobHeader @sendCompanyData="receiveCompanyData"/>
     </div>
 
     <!-- Campos del formulario -->
@@ -89,6 +89,7 @@ import { getAuth } from 'firebase/auth';
 
 // Datos de los inputs de texto
 const company = ref('');
+const userId = ref('');
 const title = ref('');
 const time = ref('');
 const salarie = ref('');
@@ -128,16 +129,30 @@ const fetchCompanyData = async () => {
   if (companySnap.exists()) {
     const data = companySnap.data();
     company.value = data.nombreEmpresa || 'Sin nombre'
+    userId.value = currentUser.uid || 'No se encontró el uid de la empresa'
   } else {
     console.log("No se encontraron datos para la empresa.");
   }
+};
+
+// Almacenamos los datos de la empresa en una referencia reactiva
+const companyData = ref({});
+
+// Función para recibir los datos del evento emitido
+const receiveCompanyData = (data) => {
+  companyData.value = data;
 };
 
 // Función para publicar empleo y reiniciar los campos
 const postJob = async () => {
   try {
     await addDoc(collection(db, "empleos"), {
-      Compañía: company.value, // Datos de la compañía desde Firestore
+      uid: userId.value,//Uid de la empresa
+      nombre: companyData.value.name,//Nombre empresa
+      correo: companyData.value.email,//Correo empresa
+      telefono: companyData.value.tel,//Telefono empresa
+      sector: companyData.value.sector,//Sector empresa
+      icono: companyData.value.icon,//icono empresa
       Título: title.value,
       Descripción: description.value,
       Duración: time.value + " " + periodoDeTiempo.value,

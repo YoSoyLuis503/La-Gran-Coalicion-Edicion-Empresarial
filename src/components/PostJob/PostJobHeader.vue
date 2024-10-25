@@ -24,6 +24,11 @@ import { ref, onMounted } from 'vue';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/js/firebase';
 import { getAuth } from 'firebase/auth';
+import { defineEmits } from 'vue';
+
+
+// Configura la función de emitir para comunicar con el componente padre
+const emit = defineEmits(['sendCompanyData']);
 
 // Datos reactivos de la empresa
 const company_user_data = ref({
@@ -52,6 +57,9 @@ const fetchCompanyData = async () => {
                 tel: data.telefono || 'Sin teléfono',
                 sector: data.sector || 'Sin sector'
             };
+            
+            // Emitimos los datos actualizados al componente padre
+            emit('sendCompanyData', company_user_data.value);
         } else {
             console.log("No se encontraron datos para la empresa.");
         }
