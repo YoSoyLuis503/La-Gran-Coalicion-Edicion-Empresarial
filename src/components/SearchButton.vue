@@ -1,6 +1,5 @@
 <template>
-    <button class="btn" type="submit"><i class="bi bi-search"></i></button>
-
+    <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
 </template>
 
 <script setup>

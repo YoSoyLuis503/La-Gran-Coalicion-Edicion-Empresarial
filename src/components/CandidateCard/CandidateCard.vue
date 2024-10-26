@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-6" v-for="(candidate, index) in candidates" :key="index">
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" v-for="(candidate, index) in candidates" :key="index">
             <div class="candidate-card">
                 <img src="@/assets/img/logoTA.png">
                 <h5>{{ candidate.name }}</h5>
