@@ -22,49 +22,48 @@
 
 <script setup>
 import FacultyList from '@/components/FacultyList.vue';
-import JobList from '@/components/JobItem.vue';
+import JobList from '@/components/JobItem.vue'; // Cambiado para asegurar el nombre correcto
 import FooterComponent from '@/components/FooterComponent.vue';
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 import { ref, onMounted } from 'vue';
-import { db, auth } from '@/js/firebase';  // Importar auth desde firebase.js
+import { db, auth } from '@/js/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
 // Definir una referencia reactiva para almacenar los empleos
 const jobs = ref([]);
 
-// Función para obtener los datos de la colección "Empleo"
-const getJobs = async () => {
-try {
-  // Obtener los documentos de la colección "Empleo"
-  const querySnapshot = await getDocs(collection(db, 'Empleo'));
-
-  // Recorrer cada documento y añadirlo al array jobs
-  querySnapshot.forEach((doc) => {
-    jobs.value.push({ id: doc.id, ...doc.data() });
-  });
-} catch (error) {
-  console.error("Error al obtener los empleos: ", error);
-}
+// Función para obtener los empleos publicados solo por la empresa autenticada
+const getJobs = async (userId) => {
+  jobs.value = []; // Reiniciar el array antes de agregar nuevos datos
+  try {
+    const querySnapshot = await getDocs(collection(db, 'empleos'));
+    
+    // Filtrar los empleos que pertenecen a la empresa autenticada usando el campo 'uid'
+    querySnapshot.forEach((doc) => {
+      const jobData = doc.data();
+      if (jobData.uid === userId) { // Verificar si el campo 'uid' coincide con el uid del usuario autenticado
+        jobs.value.push({ id: doc.id, ...jobData });
+      }
+    });
+  } catch (error) {
+    console.error("Error al obtener los empleos: ", error);
+  }
 };
 
-const checkActiveUser = () => {
-const user = auth.currentUser;
-if (user) {
-  console.log("Usuario activo:", user.email);
-} else {
-  console.log("No hay ningún usuario autenticado.");
-}
-};
-
-// Llamar a getJobs y checkActiveUser cuando el componente se monte
+// Verificar si hay un usuario autenticado y obtener sus empleos
 onMounted(() => {
-getJobs();
-checkActiveUser();
+  const user = auth.currentUser;
+  if (user) {
+    console.log("Usuario activo:", user.email);
+    getJobs(user.uid); // Pasar el UID del usuario autenticado para filtrar empleos
+  } else {
+    console.log("No hay ningún usuario autenticado.");
+  }
 });
 </script>
 
 <style scoped>
-.section-tittle h2 {
+.section-title {
   font-size: 2.5rem;
   color: #0c0c0c;
 }
