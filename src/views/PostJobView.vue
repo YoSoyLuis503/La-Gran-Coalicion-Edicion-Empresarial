@@ -6,7 +6,7 @@
   <div class="container-fluid">
     <!-- Información de la empresa -->
     <div class="row">
-      <PostJobHeader @sendCompanyData="receiveCompanyData"/>
+      <PostJobHeader @sendCompanyData="receiveCompanyData" />
     </div>
 
     <!-- Campos del formulario -->
@@ -16,7 +16,9 @@
     </div>
     <div class="row mt-3">
       <h3>Descripción</h3> <br>
-      <textarea class="form-control" rows="3" placeholder="Descripción" v-model="description" required></textarea>
+      <div class="col">
+        <textarea class="form-control" rows="3" placeholder="Descripción" v-model="description" required></textarea>
+      </div>
     </div>
     <div class="row">
       <h3>Duración</h3> <br>
@@ -60,7 +62,8 @@
     <div class="row">
       <h3>Salario $</h3> <br>
       <div class="col">
-        <input class="form-control" type="number" placeholder="400" min="400" step="50" v-model="salarie" required /><br>
+        <input class="form-control" type="number" placeholder="400" min="400" step="50" v-model="salarie"
+          required /><br>
       </div>
     </div>
 
