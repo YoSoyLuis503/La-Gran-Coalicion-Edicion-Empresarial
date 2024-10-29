@@ -1,23 +1,26 @@
 <template>
     <button class="bookmark-btn" @click="toggleBookmark">
-        <i :class="bookmarkIcon"></i>
+        <i :class="favorite"></i>
     </button>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, defineEmits } from 'vue';
+
+let emit = defineEmits(['updateFavorite'])
 
 // Estado reactivo para determinar si está marcado o no
-const isBookmarked = ref(false);
+const isFavorite = ref(false);
 
 // Computed para alternar el icono dependiendo del estado
-const bookmarkIcon = computed(() =>
-    isBookmarked.value ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'
+const favorite = computed(() =>
+    isFavorite.value ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'
 );
 
 // Función que alterna el estado
 const toggleBookmark = () => {
-    isBookmarked.value = !isBookmarked.value;
+    isFavorite.value = !isFavorite.value;
+    emit("updateFavorite",isFavorite.value)
 };
 </script>
 
