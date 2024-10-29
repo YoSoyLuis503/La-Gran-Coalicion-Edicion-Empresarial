@@ -1,8 +1,7 @@
 <template>
   <div>
     <select class="form-select" v-model="selectedOption" :required="required">
-      <option :disabled="true" :value="defaultOptionValue">{{ placeholder }}</option>
-      <option v-for="(option, index) in options" :key="index" :value="option.value">{{ option.text }}</option>
+      <option v-for="(option, index) in options" :key="index">{{ option }}</option>
     </select>
     <br>
   </div>
@@ -12,27 +11,19 @@
 import { ref, watch, defineProps, defineEmits } from 'vue';  // Importamos ref y watch
 // Definir props usando defineProps
 const props = defineProps({
+  modelValue: {
+    type: String,
+    default: ''
+  }, 
+  required: {
+    type: Boolean,
+    default: true
+  }, 
   options: {
     type: Array,
     required: true,
     default: () => []
   },
-  placeholder: {
-    type: String,
-    default: 'Seleccionar opción'
-  },
-  required: {
-    type: Boolean,
-    default: true
-  },
-  modelValue: {
-    type: String,
-    default: ''
-  },
-  defaultOptionValue: {
-    type: String,
-    default: ''
-  }
 });
 
 // Definir emit usando defineEmits
