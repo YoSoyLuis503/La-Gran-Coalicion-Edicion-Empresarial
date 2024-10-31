@@ -111,10 +111,11 @@ html, body {
 .container {
   background-color: rgba(255, 255, 255, 0.7);
   display: grid;
-  grid-template-columns: repeat(1, 5fr);
+  grid-template-columns: 1fr; /* Cambiado a 1fr para usar todo el ancho disponible */
   gap: 10px;
-  width: max-content;
-  height: max-content;
+  width: 90%; /* Cambiado a un porcentaje para adaptarse a la pantalla */
+  max-width: 400px; /* Limitar el ancho máximo en pantallas grandes */
+  height: auto; /* Ajustar a contenido */
   border-radius: 5px;
   padding: 20px;
   color: #000000;
@@ -126,7 +127,7 @@ html, body {
 
 .blue-ugb {
   height: max-content;
-  width: 410px;
+  width: 100%; /* Cambiado para que se adapte al ancho de la pantalla */
   margin: 10px;
   border-radius: 5px;
   display: flex;
@@ -142,10 +143,6 @@ html, body {
   border-radius: 25px;
   padding: 10px;
   font-size: 16px;
-}
-
-.logo-default {
-  width: 50%;
 }
 
 .btn-primary {
@@ -188,5 +185,28 @@ img {
 .eye-icon {
   width: 30px;
   height: auto;
+}
+
+/* Media Queries para mejorar la adaptabilidad */
+@media (max-width: 600px) {
+  .container {
+    padding: 15px; /* Reduce el padding en pantallas pequeñas */
+  }
+
+  .blue-ugb {
+    font-size: 1.2rem; /* Aumentar el tamaño del texto en pantallas pequeñas */
+  }
+
+  .rounded-input {
+    font-size: 14px; /* Reducir el tamaño de la fuente en entradas */
+  }
+
+  .btn-primary, .rounded-button {
+    padding: 8px 0; /* Reducir el padding de los botones */
+  }
+
+  .eye-icon {
+    width: 25px; /* Ajustar el tamaño del ícono del ojo */
+  }
 }
 </style>

@@ -301,66 +301,58 @@ export default {
 </script>
 
 
-  <style scoped>
-  html{
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-    font-weight: normal;
-    line-height: 1.15;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
+<style scoped>
+html {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: normal;
+  line-height: 1.15;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 .bodyRegistro {
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: flex;
-    -ms-flex-align: center;
-    -ms-flex-pack: center;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    background: url("/public/Recursos/fondoLogin3.png") no-repeat center center fixed;
-    background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("/public/Recursos/fondoLogin3.png") no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh; /* Asegura que ocupe toda la altura de la pantalla */
 }
 
 .containerRegistro {
-    justify-items: center;
-    background-color: rgba(255, 255, 255, 0.7);
-    display: grid;
-    grid-template-columns: repeat(1, 5fr);
-    gap: 10px;
-    width: max-content;
-    height: max-content;
-    border-radius: 5px;
-    padding: 20px;
-    color: #000000;
-    margin: 10px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.7);
+  display: grid;
+  grid-template-columns: 1fr; /* Cambiado para una sola columna */
+  gap: 10px;
+  width: 90%; /* Cambiado para ocupar el 90% del ancho */
+  max-width: 500px; /* Limitar el ancho máximo */
+  border-radius: 5px;
+  padding: 20px;
+  color: #000000;
+  margin: 10px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
-
 
 .blue-ugb {
-    height: max-content;
-    width: 410px;
-    margin: 10px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background-color: #ffffff;
-    border-color: #a5a5a5;
-    color: #000000;
+  height: max-content;
+  margin: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #ffffff;
+  border-color: #a5a5a5;
+  color: #000000;
 }
-    
+
 .rounded-input {
   border-radius: 25px;
   padding: 10px;
   font-size: 16px;
-  width: 500px;
+  width: 100%; /* Ocupa el 100% del ancho disponible */
 }
 
 .rounded-image {
@@ -389,14 +381,14 @@ export default {
   border-radius: 25px;
   padding: 10px 0;
 }
+
 body {
   font-family: Arial, sans-serif;
 }
 
-
-#Dimg{
-  width: 250px;
-  height: 100px;
+#Dimg {
+  width: 100%; /* Cambiado para que se ajuste al contenedor */
+  height: auto; /* Ajuste automático de altura */
 }
 
 .position-relative {
@@ -419,5 +411,20 @@ body {
   height: auto;
 }
 
-  </style>
+/* Estilos adicionales para mejor adaptación en móviles */
+@media (max-width: 768px) {
+  .containerRegistro {
+    padding: 15px;
+  }
+  
+  .rounded-input {
+    font-size: 14px; /* Tamaño de fuente más pequeño en pantallas pequeñas */
+  }
+  
+  .blue-ugb {
+    font-size: 20px; /* Ajusta el tamaño de texto */
+  }
+}
+</style>
+
   
