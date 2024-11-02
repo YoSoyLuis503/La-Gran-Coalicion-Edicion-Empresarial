@@ -14,7 +14,7 @@
       </div>
       <div class="row mt-5">
           <h2 class="section-title">Empleos publicados</h2>
-          <JobList :jobs="jobs" />
+          <JobList :jobs="jobs" @delete-job="deleteJob" />
       </div>
   </div>
   <FooterComponent />
@@ -22,12 +22,12 @@
 
 <script setup>
 import FacultyList from '@/components/FacultyList.vue';
-import JobList from '@/components/JobItem.vue'; // Cambiado para asegurar el nombre correcto
+import JobList from '@/components/JobItem.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 import { ref, onMounted } from 'vue';
 import { db, auth } from '@/js/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
 // Definir una referencia reactiva para almacenar los empleos
 const jobs = ref([]);
@@ -37,11 +37,11 @@ const getJobs = async (userId) => {
   jobs.value = []; // Reiniciar el array antes de agregar nuevos datos
   try {
     const querySnapshot = await getDocs(collection(db, 'empleos'));
-    
+
     // Filtrar los empleos que pertenecen a la empresa autenticada usando el campo 'uid'
     querySnapshot.forEach((doc) => {
       const jobData = doc.data();
-      if (jobData.uid === userId) { // Verificar si el campo 'uid' coincide con el uid del usuario autenticado
+      if (jobData.uid === userId) {
         jobs.value.push({ id: doc.id, ...jobData });
       }
     });
@@ -50,12 +50,24 @@ const getJobs = async (userId) => {
   }
 };
 
+// Función para eliminar un empleo de Firebase y actualizar la lista local
+const deleteJob = async (jobId) => {
+  try {
+    await deleteDoc(doc(db, 'empleos', jobId));
+    // Remover el empleo eliminado del array 'jobs'
+    jobs.value = jobs.value.filter(job => job.id !== jobId);
+    console.log("Empleo eliminado correctamente.");
+  } catch (error) {
+    console.error("Error al eliminar el empleo: ", error);
+  }
+};
+
 // Verificar si hay un usuario autenticado y obtener sus empleos
 onMounted(() => {
   const user = auth.currentUser;
   if (user) {
     console.log("Usuario activo:", user.email);
-    getJobs(user.uid); // Pasar el UID del usuario autenticado para filtrar empleos
+    getJobs(user.uid);
   } else {
     console.log("No hay ningún usuario autenticado.");
   }

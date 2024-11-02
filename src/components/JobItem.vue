@@ -22,6 +22,8 @@
             {{ job.Tipo }} <br>
             <span>{{ job.Modalidad }}</span>
           </div>
+          <!-- Botón de eliminar -->
+          <button @click="deleteJob(job.id)" class="btn btn-danger mt-2">Eliminar</button>
         </div>
       </div>
     </div>
@@ -29,11 +31,11 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
-import { ref, onMounted } from 'vue';
-import { doc, getDoc } from 'firebase/firestore';
+import { defineProps, ref, onMounted } from 'vue';
+import { doc, getDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/js/firebase';
 import { getAuth } from 'firebase/auth';
+
 // Definir las propiedades del componente
 const props = defineProps({
   jobs: {
@@ -41,13 +43,16 @@ const props = defineProps({
     required: true
   }
 });
-props.value
 
+// Crear una copia local de jobs
+const localJobs = ref([...props.jobs]);
+
+// Estado reactivo para los datos de la empresa
 const company_user_data = ref({
   icon: require('@/assets/img/logoTA.png'), // Ícono por defecto
 });
 
-//Obtener icono de la empresa
+// Función para obtener el ícono de la empresa
 const getCompanyIcon = async () => {
   const auth = getAuth();
   const currentUser = auth.currentUser;
@@ -59,14 +64,25 @@ const getCompanyIcon = async () => {
       company_user_data.value = {
         icon: data.logoUrl || company_user_data.value.icon,
       };
-    }
-    else {
-      console.log("No se encontraron los datos de la empresa")
+    } else {
+      console.log("No se encontraron los datos de la empresa");
     }
   } else {
     console.log("El usuario no ha iniciado sesión.");
   }
-}
+};
+
+// Función para eliminar un empleo de Firebase y actualizar la lista local
+const deleteJob = async (jobId) => {
+  try {
+    await deleteDoc(doc(db, 'empleos', jobId));
+    // Remover el empleo eliminado del array localJobs
+    localJobs.value = localJobs.value.filter(job => job.id !== jobId);
+    console.log("Empleo eliminado correctamente.");
+  } catch (error) {
+    console.error("Error al eliminar el empleo: ", error);
+  }
+};
 
 // Llamar la función al montar el componente
 onMounted(() => {
@@ -81,7 +97,6 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   text-align: center;
-  /* Asegura que el texto esté centrado */
 }
 
 .row {
@@ -115,27 +130,20 @@ onMounted(() => {
   margin: 10px;
   width: 100%;
   max-width: 800px;
-  /* Ancho máximo para limitar la extensión del contenido */
 }
 
 .single-job-items:hover {
   background-color: #c4c6ce;
-  /* Cambia a un tono gris al pasar el ratón */
   color: #ffffff;
-  /* Mantiene el color del texto */
 }
 
-/* Cambiar el color de todos los enlaces a negro */
 .single-job-items a {
   color: black;
-  /* Color negro para todos los enlaces */
   text-decoration: none;
-  /* Sin subrayado por defecto */
 }
 
 .single-job-items a:hover {
   text-decoration: underline;
-  /* Subrayado al pasar el ratón */
 }
 
 .company-img img {
@@ -149,5 +157,18 @@ onMounted(() => {
 
 .items-link {
   margin-top: 10px;
+}
+
+button.btn-danger {
+  color: white;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+button.btn-danger:hover {
+  background-color: #dc3545;
 }
 </style>
