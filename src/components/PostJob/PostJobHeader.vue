@@ -1,21 +1,7 @@
 <template>
-    <h1>Publicar Empleo</h1>
-    <div class="col">
-        <img :src="company_user_data.icon" alt="Company Logo" class="img-fluid" style="max-width: 115px;">
-    </div>
-    <div class="col">
-        <div class="text-start">
-            <h6>Nombre: {{ company_user_data.name }}</h6>
-        </div>
-        <div class="text-start mt-2">
-            <h6>Correo: {{ company_user_data.email }}</h6>
-        </div>
-        <div class="text-start mt-2">
-            <h6>Teléfono: {{ company_user_data.tel }}</h6>
-        </div>
-        <div class="text-start mt-2">
-            <h6>Sector: {{ company_user_data.sector }}</h6>
-        </div>
+    <h2>Publicar Empleo</h2>
+    <div class="row">
+        <h4>Información general</h4>
     </div>
 </template>
 
@@ -43,7 +29,7 @@ const company_user_data = ref({
 const fetchCompanyData = async () => {
     const auth = getAuth();
     const currentUser = auth.currentUser;
-    
+
     if (currentUser) {
         const companyRef = doc(db, "usuariosEmpresa", currentUser.uid);
         const companySnap = await getDoc(companyRef);
@@ -57,7 +43,7 @@ const fetchCompanyData = async () => {
                 tel: data.telefono || 'Sin teléfono',
                 sector: data.sector || 'Sin sector'
             };
-            
+
             // Emitimos los datos actualizados al componente padre
             emit('sendCompanyData', company_user_data.value);
         } else {

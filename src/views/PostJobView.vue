@@ -10,61 +10,65 @@
     </div>
 
     <!-- Campos del formulario -->
-    <div class="row mt-3">
-      <h3>Titulo</h3> <br>
-      <div>
-        <input class="form-control" type="text" v-model="title" required="true" placeholder="Título del puesto">
+    <div class="row mt-3 text-start">
+      <div class="col-xl-4 col-lg-4 col-md-4">
+        <h6>Titulo</h6>
+        <div>
+          <input class="form-control" type="text" v-model="title" required="true" placeholder="Título del puesto"><br>
+        </div>
       </div>
-      <!-- <PostJobTextInput placeholder="Título del puesto" type="text" v-model="title" required="true" /> -->
+      <div class="col-xl-4 col-lg-4 col-md-4">
+        <h6>Facultad</h6>
+        <SelectComponent :modelValue="facultad" :required=true :options="facultades" />
+      </div>
+      <div class="col-xl-4 col-lg-4 col-md-4">
+        <h6>Salario $</h6>          
+        <input class="form-control" type="number" placeholder="400" min="400" step="50" v-model="salarie" required /><br>
+      </div>
     </div>
-    <div class="row mt-3">
-      <h3>Facultad</h3> <br>
-      <SelectComponent :modelValue="facultad" :required=true :options="facultades" />
-    </div>
-    <div class="row mt-3">
-      <h3>Descripción</h3> <br>
+    <div class="row mt-2 text-start">
+      <h6>Descripción</h6>
       <div class="col">
         <textarea class="form-control" rows="3" placeholder="Descripción" v-model="description" required></textarea>
       </div>
     </div>
-    <div class="row mt-3">
-      <h3>Duración</h3> <br>
-      <div class="col -6">
-        <input class="form-control" type="number" placeholder="0" min="0" step="1" v-model="time" /><br>
+    <div class="row mt-3"><h3>Información Adicional</h3></div>
+    
+    <div class="row mt-3 text-start">
+      
+      <div class="col-6">
+        <h6>Duración</h6>
+        <div class="col -6">
+          <SelectComponent :modelValue="periodoDeTiempo" :required="true" :options="SMA"  @update:modelValue="updatePeriodoDeTiempo" />
+        </div>
+        <div class="col -6">
+          <input class="form-control" type="number" placeholder="0" min="0" step="1" v-model="time" :disabled="periodoDeTiempo === 'Ninguna'" />
+        </div>
       </div>
-      <div class="col -6">
-        <SelectComponent :modelValue="periodoDeTiempo" :required="true" :options="SMA" />
+      <div class="col-6">
+        <h6>Lugar de trabajo</h6>
+        <div class="col -6">
+          <select class="form-select form-control" v-model="departamento" @change="seleccionarDistritos">
+            <option selected disabled>Departamento</option>
+            <option v-for="(distritos, dept) in departamentos" :key="dept">{{ dept }}</option>
+          </select>
+        </div><br>
+        <div class="col -6">
+          <select class="form-select form-control" v-model="distrito" required>
+            <option selected disabled>Distrito</option>
+            <option v-for="distrito in distritosDisponibles" :key="distrito">{{ distrito }}</option>
+          </select>
+        </div>
       </div>
     </div>
-    <div class="row mt-3">
-      <h3>Lugar de trabajo</h3> <br>
+    <div class="row mt-3 text-start">
       <div class="col -6">
-        <select class="form-select form-control" v-model="departamento" @change="seleccionarDistritos">
-          <option selected disabled>Departamento</option>
-          <option v-for="(distritos, dept) in departamentos" :key="dept">{{ dept }}</option>
-        </select>
-      </div>
-      <div class="col -6">
-        <select class="form-select form-control" v-model="distrito" required>
-          <option selected disabled>Distrito</option>
-          <option v-for="distrito in distritosDisponibles" :key="distrito">{{ distrito }}</option>
-        </select>
-      </div>
-    </div>
-    <div class="row mt-3">
-      <h3>Modalidad y tipo de empleo</h3> <br>
-      <div class="col -6">
+      <h6>Modalidad</h6>
         <SelectComponent :modelValue="modoEmpleo" :required=true :options="modalidadesEmpleo" />
       </div>
       <div class="col -6">
+      <h6>Tipo de empleo</h6>
         <SelectComponent :modelValue="tipoEmpleo" :required=true :options="tiposEmpleo" />
-      </div>
-    </div>
-    <div class="row mt-3">
-      <h3>Salario $</h3> <br>
-      <div class="col">
-        <input class="form-control" type="number" placeholder="400" min="400" step="50" v-model="salarie"
-          required /><br>
       </div>
     </div>
 
@@ -104,7 +108,7 @@ let facultades = [
   "Ciencias de la salud", "Derecho y relaciones internacionales", "Ciencias empresariales",
   "Ciencia y tecnología", "Ciencias y humanidades", "Ingenería y arquitectura"
 ]
-const SMA = ["Semanas", "Meses", "Años"]
+const SMA = ["Ninguna","Semanas", "Meses", "Años"]
 const modalidadesEmpleo = ["Presencial", "Virtual", "Semi Presencial"]
 const tiposEmpleo = ["Tiempo completo", "Medio tiempo", "Freelance"]
 const departamentos = {
@@ -118,13 +122,21 @@ const departamentos = {
 let facultad = ref('Ciencia y tecnología')
 const modoEmpleo = ref('Presencial');
 const tipoEmpleo = ref('Tiempo completo');
-const periodoDeTiempo = ref('Meses');
+const periodoDeTiempo = ref('Ninguna');
 const departamento = ref('Departamento');
 const distrito = ref('Distrito');
 const distritosDisponibles = ref([]);
 
 const seleccionarDistritos = () => {
   distritosDisponibles.value = departamentos[departamento.value] || [];
+};
+
+// Función para actualizar periodoDeTiempo
+const updatePeriodoDeTiempo = (value) => {
+    periodoDeTiempo.value = value;
+    if (value === "Ninguna") {
+        time.value = 0; // Reiniciar time si se selecciona "Ninguna"
+    }
 };
 
 // Función para obtener datos de la empresa desde Firestore
