@@ -1,66 +1,78 @@
 <template>
     <div class="container-fluid text-center">
-        <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="(faculty, index) in faculties" :key="index">
-                <div class="faculty-box">
-                    <div class="row" style="font-size: 1.2em;">
-                        <router-link :to="{name: 'post-job' }" class="publicar-en-facultad">
-                            {{ faculty.name }}
-                        </router-link>
-                    </div>
-                    <div class="row"><label>({{ faculty.count }})</label></div>
-                    <div class="row mt-2"><label class="faculty-description">{{ faculty.description }}</label></div>
-                </div>
-            </div>
-        </div>
+    
+
+        <!-- Sección de presentación de Jobs -->
+        <section class="my-5 p-3 bg-light rounded shadow-sm">
+
+            <h2 class="h4 text-primary">¿Qué es Jobs?</h2>
+            <p class="text-muted">
+                Jobs es un portal de empleo que conecta a profesionales y empresas, adaptándose 
+                constantemente a los cambios del mercado laboral para ofrecer una experiencia 
+                innovadora y personalizada.
+            </p>
+
+            <h2 class="h4 text-primary">Objetivos de Jobs</h2>
+            <ul class="list-unstyled text-muted">
+                <li><strong>Conexión Eficiente:</strong> Facilitar la búsqueda de oportunidades para 
+                profesionales y de talento para empresas.</li>
+                <li><strong>Adaptabilidad y Evolución:</strong> Innovamos continuamente para alinearnos 
+                con las tendencias del mercado.</li>
+                <li><strong>Anticipación:</strong> Proveer herramientas que mantengan a los usuarios 
+                competitivos.</li>
+            </ul>
+
+            <h2 class="h4 text-primary">Ventajas de Jobs</h2>
+            <ul class="list-unstyled text-muted">
+                <li>Plataforma intuitiva y fácil de usar.</li>
+                <li>Innovación constante.</li>
+                <li>Experiencia personalizada y recomendaciones adaptadas.</li>
+            </ul>
+
+            <h2 class="h4 text-primary">Conclusión</h2>
+            <p class="text-muted">
+                Jobs es más que un portal de empleos; es una herramienta para crecer en el mundo laboral. 
+                ¡Únete y descubre nuevas oportunidades!
+            </p>
+        </section>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-const faculties = ref([
-    { name: "Ciencias y Humanidades", count: 653, icon: "flaticon-tour", description: "Explora áreas de arte, filosofía y más." },
-    { name: "Ciencias de la Salud", count: 658, icon: "flaticon-cms", description: "Forma parte de las profesiones de la salud." },
-    { name: "Ingeniería y Arquitectura", count: 658, icon: "flaticon-report", description: "Construye el futuro con nuestras ingenierías." },
-    { name: "Derecho y R. Internacionales", count: 658, icon: "flaticon-app", description: "Desarrolla tu carrera en leyes y relaciones." },
-    { name: "Ingeniería en Sistemas", count: 658, icon: "flaticon-helmet", description: "Impulsa tu futuro en la tecnología." },
-    { name: "Ciencias y Tecnología", count: 658, icon: "flaticon-high-tech", description: "Innova en un mundo tecnológico." },
-    { name: "Postgrado", count: 658, icon: "flaticon-real-estate", description: "Amplía tus horizontes académicos." },
-    { name: "Otros", count: 658, icon: "flaticon-content", description: "Descubre diversas oportunidades." }
-]);
 </script>
 
 <style scoped>
-.faculty-box {
-    border: 2px solid #c4c6ce; /* Cambiado a negro */
-    border-radius: 10px;
-    padding: 20px;
-    max-height: 400px;
-    transition: all 0.3s ease;
-    background-color: white;
-    color: #333;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 10px;
+h2 {
+  font-size: 3rem;
+  color: black !important;
 }
 
-.faculty-box:hover {
-    background-color: #c4c6ce; /* Cambiado a un tono gris al pasar el ratón */
-    color: #ffffff; /* Mantiene el color del texto */
+p {
+  font-size: 1.5rem;
 }
 
-.publicar-en-facultad {
-    color: black; /* Color negro para el enlace */
-    text-decoration: none; /* Sin subrayado por defecto */
+.big-background-image {
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  border-radius: 8px;
 }
 
-.publicar-en-facultad:hover {
-    text-decoration: underline; /* Subrayado al pasar el ratón */
+section {
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.faculty-description {
-    font-size: 0.9rem;
-    color: #333; /* Asegúrate de que este color esté definido */
-    margin-top: 10px;
+h1 {
+  font-size: 2.5rem;
+  color: #333;
 }
 
+h2 {
+  color: #0d6efd;
+}
+
+p, ul {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
 </style>
