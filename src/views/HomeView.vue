@@ -14,7 +14,6 @@
       </div>
       <div class="row mt-5">
           <h2 class="section-title">Empleos publicados</h2>
-          <!-- Agregar key única para forzar actualización en JobList -->
           <JobList :jobs="jobs" @delete-job="deleteJob" />
       </div>
   </div>
@@ -26,38 +25,38 @@ import FacultyList from '@/components/FacultyList.vue';
 import JobList from '@/components/JobItem.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { db, auth } from '@/js/firebase';
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
+// Definir una referencia reactiva para almacenar los empleos
 const jobs = ref([]);
 
 // Función para obtener los empleos publicados solo por la empresa autenticada
 const getJobs = async (userId) => {
-  const fetchedJobs = [];
+  jobs.value = []; // Reiniciar el array antes de agregar nuevos datos
   try {
     const querySnapshot = await getDocs(collection(db, 'empleos'));
+
+    // Filtrar los empleos que pertenecen a la empresa autenticada usando el campo 'uid'
     querySnapshot.forEach((doc) => {
       const jobData = doc.data();
       if (jobData.uid === userId) {
-        fetchedJobs.push({ id: doc.id, ...jobData });
+        jobs.value.push({ id: doc.id, ...jobData });
       }
     });
-    jobs.value = fetchedJobs;
   } catch (error) {
     console.error("Error al obtener los empleos: ", error);
   }
 };
 
-// Función para eliminar un empleo y actualizar la lista local
+// Función para eliminar un empleo de Firebase y actualizar la lista local
 const deleteJob = async (jobId) => {
   try {
     await deleteDoc(doc(db, 'empleos', jobId));
-    console.log("Empleo eliminado correctamente.");
-
-    // Remover el empleo eliminado y forzar actualización de la lista
+    // Remover el empleo eliminado del array 'jobs'
     jobs.value = jobs.value.filter(job => job.id !== jobId);
-    jobs.value = [...jobs.value];
+    console.log("Empleo eliminado correctamente.");
   } catch (error) {
     console.error("Error al eliminar el empleo: ", error);
   }
@@ -72,11 +71,6 @@ onMounted(() => {
   } else {
     console.log("No hay ningún usuario autenticado.");
   }
-});
-
-// Watch para monitorear cambios en jobs y verificar reactividad
-watch(jobs, (newJobs) => {
-  console.log("Cambio detectado en jobs:", newJobs);
 });
 </script>
 
