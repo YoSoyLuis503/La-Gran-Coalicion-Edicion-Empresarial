@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div v-for="(job, index) in jobs" :key="index" class="d-flex justify-content-center">
+      <div v-for="(job, index) in props.jobs" :key="index" class="d-flex justify-content-center">
         <div class="single-job-items mb-30 d-flex flex-column align-items-center">
           <div class="job-items d-flex align-items-center">
             <div class="company-img">
@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref, onMounted } from 'vue';
+import { defineProps, ref, onMounted, defineEmits } from 'vue';
 import { doc, getDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/js/firebase';
 import { getAuth } from 'firebase/auth';
@@ -44,8 +44,8 @@ const props = defineProps({
   }
 });
 
-// Crear una copia local de jobs
-const localJobs = ref([...props.jobs]);
+// Emitir evento
+const emit = defineEmits(['delete-job']);
 
 // Estado reactivo para los datos de la empresa
 const company_user_data = ref({
@@ -72,13 +72,15 @@ const getCompanyIcon = async () => {
   }
 };
 
-// Función para eliminar un empleo de Firebase y actualizar la lista local
+// Función para eliminar un empleo de Firebase y emitir el cambio
 const deleteJob = async (jobId) => {
   try {
+    // Eliminar el empleo de Firestore
     await deleteDoc(doc(db, 'empleos', jobId));
-    // Remover el empleo eliminado del array localJobs
-    localJobs.value = localJobs.value.filter(job => job.id !== jobId);
     console.log("Empleo eliminado correctamente.");
+    
+    // Emitir el evento para que el componente padre actualice la lista
+    emit('delete-job', jobId);
   } catch (error) {
     console.error("Error al eliminar el empleo: ", error);
   }
