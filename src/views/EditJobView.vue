@@ -2,38 +2,29 @@
     <header>
         <NavbarComponent />
     </header>
-
     <div class="caja container-fluid">
         <!-- Información de la empresa -->
         <div class="row">
             <PostJobHeader @sendCompanyData="receiveCompanyData" />
         </div>
-
-        <!-- Campos del formulario -->
         <div class="row mt-3 text-start">
             <div class="col-xl-4 col-lg-4 col-md-4">
-                <h6>Titulo</h6>
-                <div>
-                    <input class="form-control" type="text" v-model="title" required="true"
-                        placeholder="Título del puesto"><br>
-                </div>
+                <h6>Título</h6>
+                <input class="form-control" type="text" v-model="title" required placeholder="Título del puesto">
             </div>
             <div class="col-xl-4 col-lg-4 col-md-4">
                 <h6>Facultad</h6>
-                <SelectComponent :modelValue="facultad" :required=true :options="facultades" />
+                <SelectComponent :modelValue="facultad" :required="true" :options="facultades" />
             </div>
             <div class="col-xl-4 col-lg-4 col-md-4">
                 <h6>Salario $</h6>
-                <input class="form-control" type="number" placeholder="400" min="400" step="50" v-model="salarie"
-                    required /><br>
+                <input class="form-control" type="number" v-model="salarie" required placeholder="400" min="400"
+                    step="50">
             </div>
         </div>
         <div class="row mt-2 text-start">
             <h6>Descripción</h6>
-            <div class="col">
-                <textarea class="form-control" rows="3" placeholder="Descripción" v-model="description"
-                    required></textarea>
-            </div>
+            <textarea class="form-control" v-model="description" rows="3" required placeholder="Descripción"></textarea>
         </div>
         <div class="row mt-3">
             <h4>Información Adicional</h4>
@@ -41,8 +32,7 @@
         <div class="row mt-3 text-start">
             <h6>Duración</h6>
             <div class="col">
-                <SelectComponent :modelValue="periodoDeTiempo" :required="true" :options="SMA"
-                    @update:modelValue="updatePeriodoDeTiempo" />
+                <SelectComponent :modelValue="periodoDeTiempo" :required="true" :options="SMA" @update:modelValue="updatePeriodoDeTiempo" />
             </div><br>
             <div class="col">
                 <input class="form-control" type="number" placeholder="0" min="0" step="1" v-model="time"
@@ -56,7 +46,7 @@
                     <option selected disabled>Departamento</option>
                     <option v-for="(distritos, dept) in departamentos" :key="dept">{{ dept }}</option>
                 </select>
-            </div><br>
+            </div>
             <div class="col">
                 <select class="form-select form-control" v-model="distrito" required>
                     <option selected disabled>Distrito</option>
@@ -74,58 +64,45 @@
                 <SelectComponent :modelValue="tipoEmpleo" :required=true :options="tiposEmpleo" />
             </div>
         </div>
-
-        <!-- Botón para publicar -->
+        <!-- Botón para guardar -->
         <div class="row mt-3 mb-5">
             <div class="col text-start">
-                <button type="submit" class="btn btn-primary w-100" @click="postJob">Publicar</button>
+                <button type="submit" class="btn btn-primary w-100" @click="updateJob">Guardar Cambios</button>
             </div>
         </div>
     </div>
-
     <FooterComponent />
 </template>
 
 <script setup>
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 import PostJobHeader from '@/components/PostJob/PostJobHeader.vue';
-// import PostJobTextInput from '@/components/InputComponent.vue';
-// import PostJobTextTarea from '@/components/PostJob/PostJobTextTarea.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import SelectComponent from '@/components/SelectComponent.vue';
 import { ref, onMounted } from 'vue';
 import { db } from '@/js/firebase';
-import { collection, addDoc, doc, getDoc, Timestamp } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { doc, getDoc, Timestamp, updateDoc } from 'firebase/firestore';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
+const jobId = route.params.jobId;
 
-// Datos de los inputs de texto
-const company = ref('');
-const userId = ref('');
+// Campos del formulario
 const title = ref('');
-const time = ref('');
+const facultad = ref('');
 const salarie = ref('');
 const description = ref('');
+const time = ref('')
+const departamento = ref('');
+const distrito = ref('');
+const modoEmpleo = ref('');
+const tipoEmpleo = ref('');
 
-// Datos de los selects
-let facultad = ref('Ciencia y tecnología')
-const modoEmpleo = ref('Presencial');
-const tipoEmpleo = ref('Tiempo completo');
-const periodoDeTiempo = ref('Ninguna');
-const departamento = ref('Departamento');
-const distrito = ref('Distrito');
-const distritosDisponibles = ref([]);
-
-// Array para los campos de texto con su configuración
-let facultades = [
-    "Ciencias de la salud", "Derecho y relaciones internacionales", "Ciencias empresariales",
-    "Ciencia y tecnología", "Ciencias y humanidades", "Ingenería y arquitectura"
-]
-
+// Datos de opciones
+const facultades = ["Ciencias de la salud", "Derecho y relaciones internacionales", "Ciencias empresariales", "Ciencia y tecnología", "Ciencias y humanidades", "Ingeniería y arquitectura"];
 const SMA = ["Ninguna", "Semanas", "Meses", "Años"]
-const modalidadesEmpleo = ["Presencial", "Virtual", "Semi Presencial"]
-const tiposEmpleo = ["Tiempo completo", "Medio tiempo", "Freelance"]
-
+const modalidadesEmpleo = ["Presencial", "Virtual", "Semi Presencial"];
+const tiposEmpleo = ["Tiempo completo", "Medio tiempo", "Freelance"];
 const departamentos = {
     "Morazán": ["Morazán Norte", "Morazán Sur"],
     "San Miguel": ["SM Norte", "SM Centro", "SM Oeste"],
@@ -133,56 +110,57 @@ const departamentos = {
     "Usulután": ["Usulután Norte", "Usulután Sur", "Usulután Oeste"],
 };
 
+// Datos de los selects
+const periodoDeTiempo = ref('');
+const distritosDisponibles = ref([]);
+
 const seleccionarDistritos = () => {
     distritosDisponibles.value = departamentos[departamento.value] || [];
 };
 
 // Función para actualizar periodoDeTiempo
 const updatePeriodoDeTiempo = (value) => {
-    periodoDeTiempo.value = value;
-    if (value === "Ninguna") {
-        time.value = 0; // Reiniciar time si se selecciona "Ninguna"
+  periodoDeTiempo.value = value;
+  if (value === "Ninguna") {
+    time.value = 0; // Reiniciar time si se selecciona "Ninguna"
+  }
+};
+
+// Función para obtener los datos del empleo desde Firestore
+const fetchJobData = async () => {
+    if (jobId) {
+        const jobRef = doc(db, "empleos", jobId);
+        const jobSnap = await getDoc(jobRef);
+
+        if (jobSnap.exists()) {
+            const jobData = jobSnap.data();
+            title.value = jobData.Título;
+            facultad.value = jobData.Facultad;
+            salarie.value = jobData.Salario;
+            description.value = jobData.Descripción;
+            periodoDeTiempo.value = jobData.PeriodoTiempo;
+            departamento.value = jobData.Departamento;
+            distrito.value = jobData.Distrito;
+            modoEmpleo.value = jobData.Modalidad;
+            tipoEmpleo.value = jobData.Tipo;
+
+            // Actualiza los distritos disponibles según el departamento cargado
+            seleccionarDistritos();
+        } else {
+            console.log("No se encontró el empleo.");
+        }
     }
 };
 
-// Función para obtener datos de la empresa desde Firestore
-const fetchCompanyData = async () => {
-    const auth = getAuth();
-    const currentUser = auth.currentUser;
-    const companyRef = doc(db, "usuariosEmpresa", currentUser.uid); // Reemplaza "companyId" con el ID real de la empresa
-    const companySnap = await getDoc(companyRef);
-
-    if (companySnap.exists()) {
-        const data = companySnap.data();
-        company.value = data.nombreEmpresa || 'Sin nombre'
-        userId.value = currentUser.uid || 'No se encontró el uid de la empresa'
-    } else {
-        console.log("No se encontraron datos para la empresa.");
-    }
-};
-
-// Almacenamos los datos de la empresa en una referencia reactiva
-const companyData = ref({});
-
-// Función para recibir los datos del evento emitido
-const receiveCompanyData = (data) => {
-    companyData.value = data;
-};
-
-// Función para publicar empleo y reiniciar los campos
-const postJob = async () => {
+const updateJob = async () => {
     try {
-        await addDoc(collection(db, "empleos"), {
-            uid: userId.value,//Uid de la empresa
-            nombre: companyData.value.name,//Nombre empresa
-            correo: companyData.value.email,//Correo empresa
-            telefono: companyData.value.tel,//Telefono empresa
-            sector: companyData.value.sector,//Sector empresa
-            icono: companyData.value.icon,//icono empresa
+        const jobRef = doc(db, 'empleos', jobId); // Referencia al documento específico en Firestore
+        await updateDoc(jobRef, {
             Título: title.value,
             Facultad: facultad.value,
             Descripción: description.value,
-            Duración: time.value + " " + periodoDeTiempo.value,
+            PeriodoTiempo: periodoDeTiempo.value,
+            Tiempo: time.value,
             Departamento: departamento.value,
             Distrito: distrito.value,
             Salario: salarie.value,
@@ -191,28 +169,20 @@ const postJob = async () => {
             fechaPublicacion: Timestamp.now(), // Fecha y hora de publicación
         });
 
-        // Reiniciar los campos del formulario
-        title.value = '';
-        description.value = '';
-        time.value = '';
-        periodoDeTiempo.value = 'Meses';
-        departamento.value = 'Departamento';
-        distrito.value = 'Distrito';
-        salarie.value = '';
-        modoEmpleo.value = 'Presencial';
-        tipoEmpleo.value = 'Tiempo completo';
-
-        alert("El empleo ha sido publicado exitosamente.");
+        alert('El empleo ha sido actualizado exitosamente.');
     } catch (error) {
-        console.error("Error publicando el empleo: ", error);
-        alert("Ocurrió un error al publicar el empleo.");
+        console.error('Error actualizando el empleo: ', error);
+        alert('Ocurrió un error al actualizar el empleo.');
     }
 };
 
+
+// Llama a la función para cargar los datos al montar el componente
 onMounted(() => {
-    fetchCompanyData();
+    fetchJobData();
 });
 </script>
+
 
 <style scoped>
 .tooltip-text {

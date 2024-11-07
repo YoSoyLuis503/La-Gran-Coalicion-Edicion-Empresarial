@@ -87,8 +87,6 @@
 <script setup>
 import NavbarComponent from '@/components/Navbar/NavbarComponent.vue';
 import PostJobHeader from '@/components/PostJob/PostJobHeader.vue';
-// import PostJobTextInput from '@/components/InputComponent.vue';
-// import PostJobTextTarea from '@/components/PostJob/PostJobTextTarea.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import SelectComponent from '@/components/SelectComponent.vue';
 import { ref, onMounted } from 'vue';

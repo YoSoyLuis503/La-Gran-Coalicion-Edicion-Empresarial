@@ -46,7 +46,7 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/edit-job',
+    path: '/edit-job/:jobId',
     name: 'edit-job',
     component: EditJobView,
     meta: { requiresAuth: true }
