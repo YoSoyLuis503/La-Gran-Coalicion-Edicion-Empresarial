@@ -24,10 +24,10 @@
           </div>
           <!-- Botón de eliminar -->
           <div class="row">
-            <div class="col text-end">
+            <div class="col text-end col-btn">
               <button @click="sendJob(job.id)" class="btn btn-edit mt-2"><i class="bi bi-pencil-square"></i></button>
             </div>
-            <div class="col text-start ">
+            <div class="col text-start col-btn ">
               <button @click="deleteJob(job.id)" class="btn btn-delete mt-2"><i class="bi bi-trash3"></i></button>
             </div>
           </div>
@@ -193,6 +193,10 @@ button.btn-delete {
   border: none;
 }
 
+.btn-delete:hover {
+  transition: transform 0.3s ease;
+  font-size: 1.8em; 
+}
 
 .btn-edit {
   color: #4F4F4F;
@@ -201,7 +205,16 @@ button.btn-delete {
   border: none;
 }
 
+.btn-edit:hover {
+  transition: transform 0.3s ease;
+  font-size: 1.8em; 
+}
+
 .chiquito{
   font-size: 1rem;
+}
+
+.col-btn{
+  height: 50px;
 }
 </style>
