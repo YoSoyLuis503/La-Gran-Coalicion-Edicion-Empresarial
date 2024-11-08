@@ -82,10 +82,11 @@ import SelectComponent from '@/components/SelectComponent.vue';
 import { ref, onMounted } from 'vue';
 import { db } from '@/js/firebase';
 import { doc, getDoc, Timestamp, updateDoc } from 'firebase/firestore';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const jobId = route.params.jobId;
+const router = useRouter()
 
 // Campos del formulario
 const title = ref('');
@@ -139,6 +140,7 @@ const fetchJobData = async () => {
             salarie.value = jobData.Salario;
             description.value = jobData.Descripción;
             periodoDeTiempo.value = jobData.PeriodoTiempo;
+            time.value = jobData.Tiempo;
             departamento.value = jobData.Departamento;
             distrito.value = jobData.Distrito;
             modoEmpleo.value = jobData.Modalidad;
@@ -170,6 +172,8 @@ const updateJob = async () => {
         });
 
         alert('El empleo ha sido actualizado exitosamente.');
+
+        router.push({name: 'Home'})
     } catch (error) {
         console.error('Error actualizando el empleo: ', error);
         alert('Ocurrió un error al actualizar el empleo.');
