@@ -1,8 +1,8 @@
 <template>
     <div>
       <!-- Aquí puede ir tu barra de navegación u otro componente -->
-      <button @click="logout" class="btn btn-danger">
-        Cerrar Sesión
+      <button @click="logout" class="btn signout">
+        <i class="bi bi-box-arrow-right"></i>
       </button>
     </div>
   </template>
@@ -21,4 +21,17 @@ async function logout() {
   }
 }
 </script>
+
+<style scoped>
+button.signout {
+  color: #4F4F4F;
+  font-size: 2em;
+  background-color: none;
+  border: none;
+}
+
+button.signout:hover {
+  background-color: none;
+} 
+</style>
 

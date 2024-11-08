@@ -30,17 +30,17 @@ nav {
 
     a {
         font-weight: bold;
-        color: black;
+        color: #808080;
         transition: color 0.3s ease;
         text-decoration: none;
         /* Quitar subrayado */
 
         &.router-link-exact-active {
-            color: #0b17c5ed;
+            color: #4F4F4F;
         }
 
         &:hover {
-            color: #0b17c5ed;
+            color: #4F4F4F;
         }
     }
 
