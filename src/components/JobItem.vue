@@ -24,6 +24,7 @@
           </div>
           <!-- Botón de eliminar -->
           <button @click="deleteJob(job.id)" class="btn btn-danger mt-2">Eliminar</button>
+          <button @click="sendJob(job.id)" class="btn btn-edit mt-2">Editar</button>
         </div>
       </div>
     </div>
@@ -35,6 +36,9 @@ import { defineProps, ref, onMounted, defineEmits } from 'vue';
 import { doc, getDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@/js/firebase';
 import { getAuth } from 'firebase/auth';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 // Definir las propiedades del componente
 const props = defineProps({
@@ -43,6 +47,13 @@ const props = defineProps({
     required: true
   }
 });
+
+const sendJob = (jobId) => {
+  router.push({
+    name: 'edit-job',
+    params: { jobId },
+  });
+};
 
 // Emitir evento
 const emit = defineEmits(['delete-job']);
@@ -173,4 +184,15 @@ button.btn-danger {
 button.btn-danger:hover {
   background-color: #dc3545;
 }
+
+.btn-edit {
+  color: white;
+  background-color: #1C27C9;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
 </style>
