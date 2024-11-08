@@ -25,14 +25,20 @@
           <!-- Botón de eliminar -->
           <div class="row">
             <div class="col text-end">
-              <button @click="sendJob(job.id)" class="btn btn-edit mt-2">Editar</button>
+              <button @click="sendJob(job.id)" class="btn btn-edit mt-2"><i class="bi bi-pencil-square"></i></button>
             </div>
             <div class="col text-start ">
-              <button @click="deleteJob(job.id)" class="btn btn-danger mt-2">Eliminar</button>
+              <button @click="deleteJob(job.id)" class="btn btn-delete mt-2"><i class="bi bi-trash3"></i></button>
             </div>
           </div>
-
-
+          <!-- <div class="row">
+            <div class="col text-end">
+              <p class="chiquito">Editar</p>
+            </div>
+            <div class="col text-start ">
+              <p class="chiquito">Borrar</p>
+            </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -147,6 +153,7 @@ onMounted(() => {
   transition: all 0.3s ease;
   background-color: white;
   color: #333;
+  transition: transform 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 10px;
   width: 100%;
@@ -154,8 +161,7 @@ onMounted(() => {
 }
 
 .single-job-items:hover {
-  background-color: #c4c6ce;
-  color: #ffffff;
+  transform: translateY(-10px);
 }
 
 .single-job-items a {
@@ -180,33 +186,22 @@ onMounted(() => {
   margin-top: 10px;
 }
 
-button.btn-danger {
-  color: white;
-  background-color: #808080;
-  cursor: pointer;
-  padding: 5px 10px;
+button.btn-delete {
+  color: #4F4F4F;
+  font-size: 1.5em;
+  background-color: none;
   border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  width: 5em;
 }
 
-button.btn-danger:hover {
-  background-color: #4F4F4F;
-}
 
 .btn-edit {
-  color: white;
-  background-color: #B0B0B0;
-  cursor: pointer;
-  padding: 5px 10px;
+  color: #4F4F4F;
+  font-size: 1.5em;
+  background-color: none;
   border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  width: 5em;
 }
 
-.btn-edit:hover {
-  background-color: #4F4F4F;
+.chiquito{
+  font-size: 1rem;
 }
 </style>
