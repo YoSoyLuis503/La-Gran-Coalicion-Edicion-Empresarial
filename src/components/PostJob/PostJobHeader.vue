@@ -1,5 +1,4 @@
 <template>
-    <h2>Publicar Empleo</h2>
     <div class="row">
         <h4>Información general</h4>
     </div>

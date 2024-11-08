@@ -23,8 +23,16 @@
             <span>{{ job.Modalidad }}</span>
           </div>
           <!-- Botón de eliminar -->
-          <button @click="deleteJob(job.id)" class="btn btn-danger mt-2">Eliminar</button>
-          <button @click="sendJob(job.id)" class="btn btn-edit mt-2">Editar</button>
+          <div class="row">
+            <div class="col text-end">
+              <button @click="sendJob(job.id)" class="btn btn-edit mt-2">Editar</button>
+            </div>
+            <div class="col text-start ">
+              <button @click="deleteJob(job.id)" class="btn btn-danger mt-2">Eliminar</button>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>
@@ -89,7 +97,7 @@ const deleteJob = async (jobId) => {
     // Eliminar el empleo de Firestore
     await deleteDoc(doc(db, 'empleos', jobId));
     console.log("Empleo eliminado correctamente.");
-    
+
     // Emitir el evento para que el componente padre actualice la lista
     emit('delete-job', jobId);
   } catch (error) {
@@ -174,25 +182,31 @@ onMounted(() => {
 
 button.btn-danger {
   color: white;
+  background-color: #808080;
   cursor: pointer;
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
   font-weight: bold;
+  width: 5em;
 }
 
 button.btn-danger:hover {
-  background-color: #dc3545;
+  background-color: #4F4F4F;
 }
 
 .btn-edit {
   color: white;
-  background-color: #1C27C9;
+  background-color: #B0B0B0;
   cursor: pointer;
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
   font-weight: bold;
+  width: 5em;
 }
 
+.btn-edit:hover {
+  background-color: #4F4F4F;
+}
 </style>

@@ -6,6 +6,7 @@
   <div class="caja container-fluid">
     <!-- Información de la empresa -->
     <div class="row">
+      <h2>Publicar Empleo</h2>
       <PostJobHeader @sendCompanyData="receiveCompanyData" />
     </div>
 
@@ -87,7 +88,7 @@
     <!-- Botón para publicar -->
     <div class="row mt-3 mb-5">
       <div class="col text-start">
-        <button type="submit" class="btn btn-primary w-100" @click="postJob">Publicar</button>
+        <button type="submit" class="btn btn-primary w-100 publicar" @click="postJob">Publicar</button>
       </div>
     </div>
   </div>
@@ -241,5 +242,13 @@ onMounted(() => {
 
 .caja {
   max-width: 80em;
+}
+
+.publicar{
+  background-color: #B0B0B0;
+  border: none;
+}
+.publicar:hover{
+  background-color: #4F4F4F;
 }
 </style>
