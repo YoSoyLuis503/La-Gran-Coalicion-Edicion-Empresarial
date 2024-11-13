@@ -14,7 +14,7 @@
     <div class="row mt-3 text-start">
       <div class="col-xl-4 col-lg-4 col-md-4">
         <h6>Titulo</h6>
-        <input class="form-control" type="text" v-model="title" required placeholder="Título del puesto"><br>
+        <input class="form-control" type="text" v-model="title" placeholder="Título del puesto" required><br>
       </div>
       <div class="col-xl-4 col-lg-4 col-md-4">
         <h6>Facultad</h6>
@@ -30,8 +30,10 @@
     </div>
 
     <div class="row mt-2 text-start">
-      <h6>Descripción</h6>
-      <textarea class="form-control" rows="3" placeholder="Descripción" v-model="description" required></textarea>
+      <div class="col">
+        <h6>Descripción</h6>
+        <textarea class="form-control" rows="3" placeholder="Descripción" v-model="description" required></textarea>
+      </div>
     </div>
 
     <div class="row mt-3">
@@ -130,8 +132,8 @@ const departamentos = {
 
 // Datos de los selects
 let facultad = ref('Facultad')
-const modoEmpleo = ref('Presencial');
-const tipoEmpleo = ref('Tiempo completo');
+const modoEmpleo = ref('Seleccionar');
+const tipoEmpleo = ref('Seleccionar');
 const periodoDeTiempo = ref('Ninguna');
 const departamento = ref('Departamento');
 const distrito = ref('Distrito');
@@ -174,14 +176,22 @@ const receiveCompanyData = (data) => {
 
 // Función para publicar empleo y reiniciar los campos
 const postJob = async () => {
+  // Verificar si los campos están completos
+  if (!title.value || !description.value || !salarie.value || !facultad.value ||
+    !periodoDeTiempo.value || !departamento.value || !distrito.value ||
+    !modoEmpleo.value || !tipoEmpleo.value) {
+    alert("Por favor, completa todos los campos antes de publicar el empleo.");
+    return;
+  }
+
   try {
     await addDoc(collection(db, "empleos"), {
-      uid: userId.value,//Uid de la empresa
-      nombre: companyData.value.name,//Nombre empresa
-      correo: companyData.value.email,//Correo empresa
-      telefono: companyData.value.tel,//Telefono empresa
-      sector: companyData.value.sector,//Sector empresa
-      icono: companyData.value.icon,//icono empresa
+      uid: userId.value, // Uid de la empresa
+      nombre: companyData.value.name, // Nombre empresa
+      correo: companyData.value.email, // Correo empresa
+      telefono: companyData.value.tel, // Teléfono empresa
+      sector: companyData.value.sector, // Sector empresa
+      icono: companyData.value.icon, // Ícono empresa
       Título: title.value,
       Facultad: facultad.value,
       Descripción: description.value,
@@ -212,6 +222,7 @@ const postJob = async () => {
     alert("Ocurrió un error al publicar el empleo.");
   }
 };
+
 
 onMounted(() => {
   fetchCompanyData();
@@ -244,11 +255,12 @@ onMounted(() => {
   max-width: 80em;
 }
 
-.publicar{
+.publicar {
   background-color: #B0B0B0;
   border: none;
 }
-.publicar:hover{
+
+.publicar:hover {
   background-color: #4F4F4F;
 }
 </style>

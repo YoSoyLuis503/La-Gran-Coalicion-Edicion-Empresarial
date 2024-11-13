@@ -8,9 +8,12 @@
               <img :src="company_user_data.icon">
             </div>
             <div class="job-tittle">
-              <router-link :to="{ name: 'candidates' }">
-                <h4>{{ job.Título }}</h4>
-              </router-link>
+              <div>
+                <router-link :to="{ name: 'candidates', params: { jobId: job.id } }" class="btn btn-view mt-2">
+                  <h4>{{ job.Título }}</h4>
+                </router-link>
+              </div>
+              <br>
               <ul>
                 <li>{{ job.nombre }}</li>
                 <li><i class="fas fa-map-marker-alt"></i>{{ job.Distrito }}</li>
@@ -25,20 +28,13 @@
           <!-- Botón de eliminar -->
           <div class="row">
             <div class="col text-end col-btn">
-              <button @click="sendJob(job.id)" class="btn btn-edit mt-2"><i class="bi bi-pencil-square"></i></button>
+              <button @click="sendId(job.id, 'edit-job')" class="btn btn-edit mt-2"><i
+                  class="bi bi-pencil-square"></i></button>
             </div>
             <div class="col text-start col-btn ">
               <button @click="deleteJob(job.id)" class="btn btn-delete mt-2"><i class="bi bi-trash3"></i></button>
             </div>
           </div>
-          <!-- <div class="row">
-            <div class="col text-end">
-              <p class="chiquito">Editar</p>
-            </div>
-            <div class="col text-start ">
-              <p class="chiquito">Borrar</p>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -62,9 +58,9 @@ const props = defineProps({
   }
 });
 
-const sendJob = (jobId) => {
+const sendId = (jobId, nameRoute) => {
   router.push({
-    name: 'edit-job',
+    name: nameRoute,
     params: { jobId },
   });
 };
@@ -195,7 +191,7 @@ button.btn-delete {
 
 .btn-delete:hover {
   transition: transform 0.3s ease;
-  font-size: 1.8em; 
+  font-size: 1.8em;
 }
 
 .btn-edit {
@@ -207,14 +203,14 @@ button.btn-delete {
 
 .btn-edit:hover {
   transition: transform 0.3s ease;
-  font-size: 1.8em; 
+  font-size: 1.8em;
 }
 
-.chiquito{
+.chiquito {
   font-size: 1rem;
 }
 
-.col-btn{
+.col-btn {
   height: 50px;
 }
 </style>

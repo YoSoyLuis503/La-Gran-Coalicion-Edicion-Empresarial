@@ -1,12 +1,12 @@
 <template>
     <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" v-for="(candidate, index) in candidates" :key="index">
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4" v-for="(candidate, index) in candidates" :key="index">
             <div class="candidate-card">
-                <img src="@/assets/img/logoTA.png">
+                <img :src="candidate.profilePhoto">
                 <h5>{{ candidate.name }}</h5>
-                <p>EDAD: {{ candidate.age }}<br>
-                    CUM: {{ candidate.cum }}<br>
-                    ESTADO ACADÉMICO: {{ candidate.academicStatus }}
+                <p>Objetivos: {{ candidate.goals }}<br>
+                    Habilidades técnicas: {{ candidate.technicalSkills }}<br>
+                    Habilidades blandas: {{ candidate.softSkills }}
                 </p>
                 <div class="button-group">
                     <VerMas />
@@ -20,17 +20,39 @@
 <script setup>
 import VerMas from './VerMas.vue';
 import BookmarkButton from './BookmarkButton.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { db } from '@/js/firebase';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
-let candidates = ref([
-    { name: "Pedro", age: 19, cum: 9.1, academicStatus: "ACTIVO" },
-    { name: "Lucas", age: 20, cum: 10, academicStatus: "ACTIVO" },
-    { name: "Juan", age: 20, cum: 8.2, academicStatus: "EGRESADO" },
-    { name: "Sofia", age: 18, cum: 9, academicStatus: "RETIRADO" },
-    { name: "Rosa", age: 29, cum: 5, academicStatus: "RETIRADO" },
-    { name: "Sandra", age: 24, cum: 7.9, academicStatus: "EGRESADO" },
-    { name: "Saúl", age: 22, cum: 8.3, academicStatus: "ACTIVO" }
-]);
+// Obtener jobId del enrutador
+const route = useRoute();
+const jobId = route.params.jobId;
+console.log(jobId)
+
+// Estado para almacenar los candidatos
+const candidates = ref([]);
+
+const fetchCandidates = async () => {
+    try {
+        const querySnapshot = await getDocs(
+            query(collection(db, "curriculums"), where("solicitedJobs", "array-contains", jobId))
+        );
+        candidates.value = querySnapshot.docs.map(doc => ({
+            name: doc.data().fullName,
+            goals: doc.data().professionalGoal,
+            technicalSkills: doc.data().technicalSkills,
+            softSkills: doc.data().softSkills,
+            profilePhoto: doc.data().profilePhoto,
+        }));
+    } catch (error) {
+        console.error("Error fetching candidates: ", error);
+    }
+};
+
+onMounted(() => {
+    fetchCandidates();
+});
 </script>
 
 <style scoped>

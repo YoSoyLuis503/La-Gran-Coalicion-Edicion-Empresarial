@@ -28,11 +28,11 @@ const routes = [
     meta: { title: 'Registro Empresarial' }
   },
   {
-    path: '/candidates',
+    path: '/candidates/:jobId',
     name: 'candidates',
     component: CandidatesView,
-    meta: { requiresAuth: true,title: 'candidatos' }
-  },
+    props: true // Permite pasar `jobId` como prop
+  },  
   {
     path: '/Jobs-Empresarial',
     name: 'Jobs Empresarial',

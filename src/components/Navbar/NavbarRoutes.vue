@@ -18,7 +18,7 @@ import { ref } from 'vue';
 // y un "text" que aparecerá en el navbar
 let rutas = ref([
     { name: 'Home', text: 'Inicio' },
-    { name: 'candidates', text: 'Ver Candidatos' },
+    // { name: 'candidates', text: 'Ver Candidatos' },
     { name: 'post-job', text: 'Publicar Empleo' },
 ])
 </script>

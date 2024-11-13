@@ -24,8 +24,11 @@
             </div>
         </div>
         <div class="row mt-2 text-start">
-            <h6>Descripción</h6>
-            <textarea class="form-control" v-model="description" rows="3" required placeholder="Descripción"></textarea>
+            <div class="col">
+                <h6>Descripción</h6>
+                <textarea class="form-control" v-model="description" rows="3" required
+                    placeholder="Descripción"></textarea>
+            </div>
         </div>
         <div class="row mt-3">
             <h4>Información Adicional</h4>
@@ -33,7 +36,8 @@
         <div class="row mt-3 text-start">
             <h6>Duración</h6>
             <div class="col">
-                <SelectComponent :modelValue="periodoDeTiempo" :required="true" :options="SMA" @update:modelValue="updatePeriodoDeTiempo" />
+                <SelectComponent :modelValue="periodoDeTiempo" :required="true" :options="SMA"
+                    @update:modelValue="updatePeriodoDeTiempo" />
             </div><br>
             <div class="col">
                 <input class="form-control" type="number" placeholder="0" min="0" step="1" v-model="time"
@@ -88,6 +92,7 @@ import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const jobId = route.params.jobId;
 const router = useRouter()
+console.log(jobId)
 
 // Campos del formulario
 const title = ref('');
@@ -122,10 +127,10 @@ const seleccionarDistritos = () => {
 
 // Función para actualizar periodoDeTiempo
 const updatePeriodoDeTiempo = (value) => {
-  periodoDeTiempo.value = value;
-  if (value === "Ninguna") {
-    time.value = 0; // Reiniciar time si se selecciona "Ninguna"
-  }
+    periodoDeTiempo.value = value;
+    if (value === "Ninguna") {
+        time.value = 0; // Reiniciar time si se selecciona "Ninguna"
+    }
 };
 
 // Función para obtener los datos del empleo desde Firestore
@@ -156,6 +161,13 @@ const fetchJobData = async () => {
 };
 
 const updateJob = async () => {
+    // Verificar si los campos están completos
+    if (!title.value || !description.value || !salarie.value || !facultad.value ||
+        !periodoDeTiempo.value || !departamento.value || !distrito.value ||
+        !modoEmpleo.value || !tipoEmpleo.value) {
+        alert("Por favor, completa todos los campos antes de publicar el empleo.");
+        return;
+    }
     try {
         const jobRef = doc(db, 'empleos', jobId); // Referencia al documento específico en Firestore
         await updateDoc(jobRef, {
@@ -174,7 +186,7 @@ const updateJob = async () => {
 
         alert('El empleo ha sido actualizado exitosamente.');
 
-        router.push({name: 'Home'})
+        router.push({ name: 'Home' })
     } catch (error) {
         console.error('Error actualizando el empleo: ', error);
         alert('Ocurrió un error al actualizar el empleo.');
@@ -215,11 +227,12 @@ onMounted(() => {
     max-width: 80em;
 }
 
-.publicar{
-  background-color: #B0B0B0;
-  border: none;
+.publicar {
+    background-color: #B0B0B0;
+    border: none;
 }
-.publicar:hover{
-  background-color: #4F4F4F;
+
+.publicar:hover {
+    background-color: #4F4F4F;
 }
 </style>
