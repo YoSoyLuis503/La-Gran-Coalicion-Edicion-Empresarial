@@ -28,19 +28,25 @@ const toggleBookmark = () => {
 .bookmark-btn {
     background-color: transparent;
     border: none;
-    font-size: 24px;
+    font-size: 1.5em;
     cursor: pointer;
-    color: #011b40;
+    color: #808080;
     transition: color 0.3s ease;
     padding: 0;
+    height: 50px;
 }
 
 .bi-bookmark-fill{
     transition: color 0.5s ease;
-    color: #0b17c5ed;
+    color: #4F4F4F;
 }
 
 .bookmark-btn:focus {
     outline: none;
+}
+
+.bookmark-btn:hover{
+    transition: transform 0.3s ease;
+    font-size: 1.8em;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div v-for="(job, index) in props.jobs" :key="index" class="d-flex justify-content-center">
+      <div v-for="(job, index) in props.jobs" :key="index" class="col-6 d-flex justify-content-center">
         <div class="single-job-items mb-30 d-flex flex-column align-items-center">
           <div class="job-items d-flex align-items-center">
             <div class="company-img">
@@ -25,7 +25,7 @@
             {{ job.Tipo }} <br>
             <span>{{ job.Modalidad }}</span>
           </div>
-          <!-- Botón de eliminar -->
+          <!-- Editar y borrar empleo -->
           <div class="row">
             <div class="col text-end col-btn">
               <button @click="sendId(job.id, 'edit-job')" class="btn btn-edit mt-2"><i

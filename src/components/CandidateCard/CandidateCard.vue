@@ -1,16 +1,20 @@
 <template>
     <div class="row">
         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4" v-for="(candidate, index) in candidates" :key="index">
-            <div class="candidate-card">
-                <img :src="candidate.profilePhoto">
-                <h5>{{ candidate.name }}</h5>
-                <p>Objetivos: {{ candidate.goals }}<br>
-                    Habilidades técnicas: {{ candidate.technicalSkills }}<br>
-                    Habilidades blandas: {{ candidate.softSkills }}
-                </p>
-                <div class="button-group">
-                    <VerMas />
-                    <BookmarkButton />
+            <div class="container candidate-card">
+                <div class="row"><img :src="candidate.profilePhoto"></div>
+                <div class="row">
+                    <h5>{{ candidate.name }}</h5>
+                </div>
+                <div class="row">
+                    <p>Objetivos: {{ candidate.goals }}<br>
+                        Habilidades técnicas: {{ candidate.technicalSkills }}<br>
+                        Habilidades blandas: {{ candidate.softSkills }}
+                    </p>
+                </div>
+                <div class="row button-group">
+                    <div class="col text-end"><VerMas /></div>
+                    <div class="col text-start"><BookmarkButton /></div>                    
                 </div>
             </div>
         </div>
@@ -65,7 +69,12 @@ onMounted(() => {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.candidate-card:hover{
+    transform: translateY(-10px);
 }
 
 .candidate-card img {

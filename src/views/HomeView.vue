@@ -22,8 +22,7 @@
     <div class="row">
       <FacultyList :faculties="faculties" />
     </div>
-
-    <!-- Categorías de Empleo -->
+<!-- 
     <section class="categories-section my-5 text-center">
       <h2 class="section-title">Explora categorías populares</h2>
       <div class="row mt-4">
@@ -52,7 +51,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
   </div>
 
