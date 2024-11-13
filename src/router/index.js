@@ -3,7 +3,6 @@ import HomeView from '@/views/HomeView.vue';
 import RegisterView from '@/views/RegisterView.vue';
 import LoginView from '@/views/LoginView.vue';
 import CandidatesView from '@/views/CandidatesView.vue';
-import PruebasView from '@/views/PruebasView.vue';
 import PostJobView from '@/views/PostJobView.vue';
 import EditJobView from '@/views/EditJobView.vue';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -32,12 +31,6 @@ const routes = [
     name: 'candidates',
     component: CandidatesView,
     props: true // Permite pasar `jobId` como prop
-  },  
-  {
-    path: '/Jobs-Empresarial',
-    name: 'Jobs Empresarial',
-    component: PruebasView,
-    meta: { requiresAuth: true }
   },
   {
     path: '/post-job',
