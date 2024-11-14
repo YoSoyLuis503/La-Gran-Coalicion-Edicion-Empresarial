@@ -12,7 +12,7 @@ const routes = [
     path: '/',
     name: 'Home',
     component: HomeView,
-    meta: { requiresAuth: true,title: 'Jobs Empresarial' }
+    meta: { requiresAuth: true,title: 'Inicio'}
   },
   {
     path: '/login',
@@ -30,19 +30,20 @@ const routes = [
     path: '/candidates/:jobId',
     name: 'candidates',
     component: CandidatesView,
+    meta: { requiresAuth: true, title: 'Candidatos'},
     props: true // Permite pasar `jobId` como prop
   },
   {
     path: '/post-job',
     name: 'post-job',
     component: PostJobView,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, title: 'Publicar' }
   },
   {
     path: '/edit-job/:jobId',
     name: 'edit-job',
     component: EditJobView,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, title: 'Editar'}
   }
 ];
 
@@ -73,6 +74,11 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title || 'Jobs Empresarial';
     next();
   }
+});
+
+router.afterEach((to) => {
+  const defaultTitle = 'Prueba';
+  document.title = to.meta.title || defaultTitle;
 });
 
 export default router;
