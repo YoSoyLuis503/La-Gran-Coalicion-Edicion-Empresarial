@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div v-for="(job, index) in props.jobs" :key="index" class="col-6 d-flex justify-content-center">
+      <div v-for="(job, index) in props.jobs" :key="index" class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center">
         <div class="single-job-items mb-30 d-flex flex-column align-items-center">
           <div class="job-items d-flex align-items-center">
             <div class="company-img">
