@@ -40,7 +40,7 @@ const candidates = ref([]);
 const fetchCandidates = async () => {
     try {
         const querySnapshot = await getDocs(
-            query(collection(db, "curriculums"), where("solicitedJobs", "array-contains", jobId))
+            query(collection(db, "users"), where("solicitedJobs", "array-contains", jobId))
         );
         candidates.value = querySnapshot.docs.map(doc => ({
             name: doc.data().fullName,
